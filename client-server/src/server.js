@@ -11,7 +11,7 @@ const client  = mqtt.connect(process.env.MQTT_BROKER);
 client.on('connect', () => {
   console.log('Connected');
   //obtener todos los topicos y suscribirse
-  axios.get(`all-topic`)
+  axios.get(`auth/all-topic`)
     .then(response => {
       const topics = response.data;
       
@@ -32,7 +32,7 @@ client.on('connect', () => {
 });
 
 //Suscribirse a un topico (Nuevo Lector)
-app.post('/subscribe', (req, res) => {
+app.post('/mqtt/subscribe', (req, res) => {
   const { topic } = req.body;
   if (!topic) {
     return res.status(400).send('Debe proporcionar un topic');
@@ -50,7 +50,7 @@ app.post('/subscribe', (req, res) => {
 });
 
 //Des-suscribirse de un topico (eliminar lector)
-app.post('/unsubscribe', (req, res) => {
+app.post('/mqtt/unsubscribe', (req, res) => {
   const { topic } = req.body;
   if (!topic) {
     return res.status(400).send('Debe proporcionar un topic');
@@ -75,7 +75,7 @@ client.on('message', function (topic, message) {
   const data = JSON.parse(message.toString());
 
   // Enviar una petición POST al Aplication Server para validar permisos y retornar respuesta al broker
-  axios.post('validation-permission', data)
+  axios.post('auth/validation-permission', data)
   .then(response => {    
     // Comprobar si el campo "status" de la respuesta es "success"
     if (response.data.status === 'success') {
