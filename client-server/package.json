@@ -1,0 +1,25 @@
+{
+  "name": "server-client",
+  "version": "1.0.0",
+  "description": "Servidor de cliente encargado de recibir las peticiones de mosquitto y enviarlas a la base de datos",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "nodemon src/server.js",
+    "dev": "nodemon src/server.js",
+    "build": "webpack --mode production"
+  },
+  "author": "Oliver Torres",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.4.0",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0",
+    "mqtt": "^4.2.8"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.13",
+    "webpack": "^5.88.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-node-externals": "^3.0.0"
+  }
+}
