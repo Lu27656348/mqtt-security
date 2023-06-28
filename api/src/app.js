@@ -18,7 +18,7 @@ app.use(express.json());
 
 app.use(routerTopic);
 
-app.post('/login', (req,res) => {
+app.post('auth/authorization', (req,res) => {
     if(req.body.usuario == 'Luis' && req.body.password == 'Hola'){
         const payload = {
             check: true

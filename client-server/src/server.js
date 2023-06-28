@@ -6,29 +6,51 @@ import axios from "./api/axios";
 app.use(express.json());
 
 const client  = mqtt.connect(process.env.MQTT_BROKER);
+const token = '';
 
 //Conectarse al broker MQTT
 client.on('connect', () => {
   console.log('Connected');
-  //obtener todos los topicos y suscribirse
-  axios.get(`auth/all-topic`)
-    .then(response => {
-      const topics = response.data;
-      
-      topics.forEach(topic => {
-        client.subscribe(topic, (err) => {
-          if (err) {
-            console.error('Error al suscribirse al topic:', topic);
-          }
+  //hacer login
+  var data ={
+            usuario: 'Luis',
+            password:'Hola',
+          };
+
+  axios.post(`auth/authorizacion`,data)
+  .then(response => {
+      if(response.data.token){
+        this.token=response.data.token;
+      }
+      const headers = {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/json',
+        'Custom-Header': 'Custom-Value'
+      };
+      //obtener todos los topicos y suscribirse
+      axios.get(`auth/all-topic`, {
+        headers: headers
+      })
+      .then(response => {
+          // const topics = response.data; 
+          // topics.forEach(topic => {
+          //   client.subscribe(topic, (err) => {
+          //     if (err) {
+          //       console.error('Error al suscribirse al topic:', topic);
+          //     }
+          //   });
+          // }); 
+          console.log('hola');
+          res.status(200).send('OK');
+        })
+        .catch(error => {
+          console.error('Error al obtener la lista de tópicos:', error);
+          res.status(500).send('Error al obtener la lista de tópicos');
         });
-      });
-      
-      res.status(200).send('OK');
-    })
-    .catch(error => {
-      console.error('Error al obtener la lista de tópicos:', error);
-      res.status(500).send('Error al obtener la lista de tópicos');
-    });
+  })
+  .catch(error => {
+    console.error('No se pudo hacer login:', error);
+  });
 });
 
 //Suscribirse a un topico (Nuevo Lector)

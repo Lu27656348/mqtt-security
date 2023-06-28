@@ -4,7 +4,7 @@ const {verify} = require('../../middleware/verify.js');
 
 const routerTopic = Router();
 
-routerTopic.get('/topics',verify, getAllTopics);
+routerTopic.get('auth/all-topic',verify, getAllTopics);
 
 module.exports = {
     routerTopic
