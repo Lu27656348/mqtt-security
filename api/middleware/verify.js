@@ -1,6 +1,6 @@
-const express = require('express');
+import express from 'express';
 const secret = 'sistemasdistribuidos2023';
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 const verify = express.Router();
 
 verify.use((req,res,next)=>{
@@ -27,6 +27,6 @@ verify.use((req,res,next)=>{
         });
     }
 });
-module.exports = {
-    verify
-}
+
+
+export default verify;

@@ -1,11 +1,9 @@
-const { Router } = require('express');
-const {getAllTopics} = require('../controllers/topics_controller');
-const {verify} = require('../../middleware/verify.js');
+import { Router } from 'express';
+import {getAllTopics} from '../controllers/topics_controller.js';
+import verify  from '../../middleware/verify.js';
 
 const routerTopic = Router();
 
-routerTopic.get('auth/all-topic',verify, getAllTopics);
+routerTopic.get('/auth/topics',verify, getAllTopics);
 
-module.exports = {
-    routerTopic
-}
+export default routerTopic;

@@ -1,9 +1,11 @@
-const Sequelize = require('sequelize');
+import Sequelize from 'sequelize';
 
-module.exports.sequelize  = new Sequelize("postgres://postgres:postgres@localhost:5432/mqttsecurity_test",{
+const sequelize  = new Sequelize("postgres://postgres:admin@localhost:5432/mqttsecurity_test",{
     define: {
         freezeTableName: true
     }
 });
+
+export default sequelize;
 
 

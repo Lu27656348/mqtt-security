@@ -1,31 +1,18 @@
-const sequelize = require('../database/database_connect.js');
-const { DataTypes } = require('sequelize');
+import sequelize  from '../database/database_connect.js';
+import { DataTypes } from "sequelize"
 
-const topic = sequelize.sequelize.define('topics',{
-    id_topic: {
+const topic = sequelize.define('topics',{
+    topic_id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    nombre: {
+    description: {
         type: DataTypes.STRING,
         allowNull: false
-    },
-    descripcion: {
-        type: DataTypes.STRING,
-        allowNull: true
-    },
-    fecha_creacion: {
-        type: DataTypes.DATE,
-        allowNull: true
-    },
-    estado: {
-        type: DataTypes.STRING(20),
-        allowNull: true
     }
 },{
     timestamps: false
 })
-module.exports = {
-    topic: topic
-}
+
+export default topic;
