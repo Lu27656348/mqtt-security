@@ -11,47 +11,61 @@ const token = '';
 //Conectarse al broker MQTT
 client.on('connect', () => {
   console.log('Connected');
+  const credential = {
+    usuario: 'Nahum',
+    password:"queclave"
+  }
+  console.log('Connected');
+  console.log(credential);
   //hacer login
-  var data ={
-            usuario: 'Luis',
-            password:'Hola',
-          };
 
-          fetch('auth/authorizacion', {
+
+          fetch('http://localhost:3000/login', {
             method: 'POST',
-            body: JSON.stringify(data)
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(credential)
           })
           .then(response => response.json())
           .then(data => {
-            if (data.token) {
-              this.token = data.token;
-            }
-            const headers = {
-              'Authorization': `Bearer ${token}`,
-              'Accept': 'application/json',
-              'Custom-Header': 'Custom-Value'
-            };
-            fetch('auth/all-topic', {
-              method: 'GET',
-              headers: headers
-            })
-            .then(response => response.json())
-            .then(data => {
-              const topics = data; 
-              topics.forEach(topic => {
-                client.subscribe(topic, (err) => {
-                  if (err) {
-                    console.error('Error al suscribirse al topic:', topic);
+                if (data.token) {
+                  this.token = data.token;
+                }
+                const token_luis = data.token;
+                console.log(token_luis);
+                const headers = {
+                  'Authorization': `Bearer ${token_luis}`,
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+                  'Custom-Header': 'Custom-Value'
+                };
+                console.log("Extrayendo topicos")
+                fetch('http://localhost:3000/auth/topics', {
+                  method: 'GET',
+                  headers: headers
+                })
+                .then(response => response.json())
+                .then(data => {
+                  const topics = data; 
+                  console.log(topics);
+                  if(topics.length == 0){
+                    return;
                   }
+                  topics.forEach(topic => {
+                    client.subscribe(topic, (err) => {
+                      if (err) {
+                        console.error('Error al suscribirse al topic:', topic);
+                      }
+                    });
+                  }); 
+                  console.log('hola');
+                  res.status(200).send('OK');
+                })
+                .catch(error => {
+                  console.error('Error al obtener la lista de tópicos:', error);
+                  //res.status(500).send('Error al obtener la lista de tópicos');
                 });
-              }); 
-              console.log('hola');
-              res.status(200).send('OK');
-            })
-            .catch(error => {
-              console.error('Error al obtener la lista de tópicos:', error);
-              res.status(500).send('Error al obtener la lista de tópicos');
-            });
           })
           .catch(error => {
             console.error('No se pudo hacer login:', error);

@@ -1,7 +1,7 @@
 import sequelize  from '../database/database_connect.js';
 import { DataTypes } from "sequelize"
 
-const Client = sequelize.define('clients',{
+const Client = sequelize.define('client',{
     client_id: {
         type: DataTypes.INTEGER,
         primaryKey: true,

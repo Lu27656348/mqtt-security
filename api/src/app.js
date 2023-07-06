@@ -23,6 +23,12 @@ app.use(routerClient);
 app.post('/login', (req,res) => {
 
     console.log("Datos recibidos del login: ");
+    console.log("---------------------------")
+    console.log(req.body)
+    if(req.body.usuario == undefined || req.body.password == undefined){
+        console.log("El servidor recibio basura");
+        return;
+    }
     console.log(req.body.usuario);
     console.log(req.body.password);
     fetch("http://localhost:3000/auth/users/authenticate",{
@@ -62,7 +68,10 @@ app.post('/login', (req,res) => {
                 message: "Error en autenticacion de usuario"
             })
         }
-    });
+    })
+    .catch( error => {
+        console.log("error -> " + error)
+    })
     
 });
 

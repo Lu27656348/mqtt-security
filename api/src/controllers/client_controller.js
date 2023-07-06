@@ -14,6 +14,8 @@ export const getClientById = async (req,res) => {
 
 export const authClient = async (req,res) => {
     const {name,password} = req.body;
+    console.log("AUTH")
+    console.log(name)
     const search = await Client.findOne({
         where: {
             name: name,
