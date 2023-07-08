@@ -28,7 +28,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- 2) Funcion que se encarga de convertir letras de mayusculas a minusculas
+-- 2) Funcion que se encarga de convertir letras de mayusculas a minusculas. Para el atributo "area_topic" de la tabla Areas
 CREATE OR REPLACE FUNCTION lowercase_area_topic() RETURNS TRIGGER AS $$
 DECLARE
   new_area_topic TEXT;
@@ -45,6 +45,28 @@ BEGIN
     i := i + 1;
   END LOOP;
   NEW.area_topic := new_area_topic;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- 3) Funcion que se encarga de convertir letras de mayusculas a minusculas. Para el atributo "type" de la tabla Roles
+CREATE OR REPLACE FUNCTION lowercase_type() RETURNS TRIGGER AS $$
+DECLARE
+  new_type TEXT;
+  i INT := 1;
+BEGIN
+  new_type := '';
+  WHILE i <= length(NEW.type) LOOP
+    IF substring(NEW.type, i, 1) SIMILAR TO '[a-zA-Z]'
+    THEN
+      new_type := new_type || lower(substring(NEW.type, i, 1));
+    ELSE
+      new_type := new_type || substring(NEW.type, i, 1);
+    END IF;
+    i := i + 1;
+  END LOOP;
+  NEW.type := new_type;
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
@@ -68,7 +90,7 @@ EXECUTE FUNCTION lowercase_area_topic();
 CREATE TRIGGER lowercase_type_trigger
 BEFORE INSERT ON Roles
 FOR EACH ROW
-EXECUTE FUNCTION lowercase_area_topic();
+EXECUTE FUNCTION lowercase_type();
 
 -- **************************************************************************************************
 -- CREACIONES DE TABLAS
@@ -210,11 +232,11 @@ INSERT INTO Client(name, password) VALUES('Nahum','queclave');
 -- **************************************************************************************************
 -- INSERT EN AREAS
 INSERT INTO Areas (area_topic, nivel) VALUES ('UCAB', 0);
-INSERT INTO Areas (area_topic, nivel, description) VALUES ('Ucab/Biblioteca', 1, 'Área de las Biblioteca');
-INSERT INTO Areas (area_topic, nivel, description) VALUES ('Ucab/Biblioteca/piso1',2,'Area de piso 1 de la biblioteca');
+INSERT INTO Areas (area_topic, nivel, description) VALUES ('Biblioteca', 1, 'Área de las Biblioteca');
+INSERT INTO Areas (area_topic, nivel, description) VALUES ('piso1',2,'Area de piso 1 de la biblioteca');
 INSERT INTO Areas (area_topic, nivel, description) VALUES ('Cálculo', 2, 'Rama de las matemáticas');
 INSERT INTO Areas (area_topic, nivel, description) VALUES ('Geometría', 2, 'Rama de las matemáticas');
-INSERT INTO Areas (area_topic, nivel, description) VALUES ('Ucab/Biblioteca/piso1/sala1', 3, 'Sala 1 de piso de 1 de Biblioteca');
+INSERT INTO Areas (area_topic, nivel, description) VALUES ('sala1', 3, 'Sala 1 de piso de 1 de Biblioteca');
 INSERT INTO Areas (area_topic, nivel, description) VALUES ('Álgebra lineal', 3, 'Rama del álgebra');
 INSERT INTO Areas (area_topic, nivel, description) VALUES ('Álgebra abstracta', 3, 'Rama del álgebra');
 INSERT INTO Areas (area_topic, nivel, description) VALUES ('Geometría diferencial', 3, 'Rama de la geometría');
@@ -226,6 +248,18 @@ select * from Areas;
 -- **************************************************************************************************
 -- INSERTS EN AREAS_TREE
 INSERT INTO Areas_tree (area_id1, area_id2) VALUES (1,2);
-INSERT INTO Areas_tree (area_id1, area_id2) VALUES (1,3);
+
+--Pruebas para el Trigger
+INSERT INTO Areas_tree (area_id1, area_id2) VALUES (1,3); -- NO es consecutivo no funciona
+INSERT INTO Areas_tree (area_id1, area_id2) VALUES (4,3); -- area_id1 debe ser menor que area_id2 (Para seguir un orden)
+INSERT INTO Areas_tree (area_id1, area_id2) VALUES (3,3); -- No es consecutivo,son iguales
 
 select * from Areas_tree;
+
+-- **************************************************************************************************
+-- INSERTS EN ROLES
+INSERT INTO Roles (type) VALUES ('EstuDIantE');
+INSERT INTO Roles (type) VALUES ('PROFESOR');
+INSERT INTO Roles (type) VALUES ('Personal');
+
+SELECT * FROM Roles
