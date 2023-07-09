@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require('express'); 
 const app = express();
 const mqtt = require('mqtt');
 const axios = require ('axios');
@@ -7,15 +7,14 @@ app.use(express.json());
 
 const client  = mqtt.connect('mqtt://broker.emqx.io:1883');
 const token = '';
+const credential = {
+  usuario: 'Nahum',
+  password: 'queclave'
+};
 
 //Conectarse al broker MQTT
 client.on('connect', () => {
   console.log('Connected');
-  const credential = {
-    usuario: 'Nahum',
-    password: 'queclave'
-  };
-  
   axios.post('http://localhost:3000/login', credential)
   .then(function (response) {
       token = response.data.token;
@@ -26,6 +25,7 @@ client.on('connect', () => {
           'Content-Type': 'application/json',
           'Custom-Header': 'Custom-Value'
       };
+
       axios.get('http://localhost:3000/auth/topics', {headers: headers})
       .then(function (response) {
           const topics = response.data; 
@@ -39,7 +39,6 @@ client.on('connect', () => {
               }
             });
           }); 
-          console.log('hola');
           res.status(200).send('OK');
         })
       .catch(error => {
@@ -48,8 +47,9 @@ client.on('connect', () => {
       });
   })
   .catch(function (error) {
-    console.log('Error al obtener el recurso.', error);
+    console.log('Error al hacer login');
   });
+  client.subscribe('ucab');
 });
 
 //Suscribirse a un topico (Nuevo Lector)
@@ -91,11 +91,8 @@ app.post('/mqtt/unsubscribe', (req, res) => {
 //Recibe los mensajes que vienen del broker
 client.on('message', function (topic, message) {
   console.log('Mensaje recibido en el topic:', topic, 'mensaje: ', message.toString());
-
   // Parsear el mensaje como JSON
   const data = JSON.parse(message.toString());
-
-  //header
   const headers = {
     'Authorization': `Bearer ${token}`,
     'Accept': 'application/json',
@@ -103,24 +100,19 @@ client.on('message', function (topic, message) {
     'Custom-Header': 'Custom-Value'
   };
   // Enviar una petición POST al Aplication Server para validar permisos y retornar respuesta al broker
-  fetch('http://localhost:3000/auth/validation-permission', {
-    method: 'POST',
-    headers: headers,
-    body: JSON.stringify(data)
+  axios.post('http://localhost:3000/auth/validation-permission', data, {headers: headers})
+  .then(function (response) {
+    // Comprobar si el campo "status" de la respuesta es "success"
+    if (response.data.status === 'success') {
+      // Si el campo "status" es "success", publicar la respuesta en el broker MQTT
+      client.publish(`${topic}/escucha`, JSON.stringify(response.data));
+    } else {
+      // Si el campo "status" no es "success", no publicar la respuesta
+      console.log('El mensaje recibido no es proveniente de un lector valido');
+    }
   })
-  .then(response => response.json())
-  .then(data => {    
-      // Comprobar si el campo "status" de la respuesta es "success"
-      if (data.status === 'success') {
-        // Si el campo "status" es "success", publicar la respuesta en el broker MQTT
-        client.publish(`${topic}/escucha`, JSON.stringify(data));
-      } else {
-        // Si el campo "status" no es "success", no publicar la respuesta
-        console.log('El mensaje recibido no es proveniente de un lector valido');
-      }
-  })
-  .catch(error => {
-      console.error('Error al enviar la petición POST:', error);
+  .catch(function (error) {
+    console.log('error al intentar enviar datos para validar permisos')
   });
 });
 
