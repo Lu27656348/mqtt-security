@@ -10,6 +10,9 @@ const topic = sequelize.define('topics',{
     description: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    nombre: {
+        type: DataTypes.STRING,
     }
 },{
     timestamps: false
