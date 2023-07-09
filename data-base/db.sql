@@ -120,7 +120,7 @@ CREATE TABLE Users (
 CREATE TABLE Areas (
 	area_id SERIAL,
 	area_topic VARCHAR(255) NOT NULL,
-	nivel INT NOT NULL,
+	level INT NOT NULL,
 	description VARCHAR(255),
 	PRIMARY KEY (area_id)
 );
