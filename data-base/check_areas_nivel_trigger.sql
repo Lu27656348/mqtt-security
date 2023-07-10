@@ -2,7 +2,7 @@
 -- 1) Funcion que se encarga de verificar si area_Id1 y area_id2 son consecutivos y area_id1<area_id2
 CREATE OR REPLACE FUNCTION check_areas_nivel() RETURNS TRIGGER AS $$
 BEGIN
-  IF (SELECT nivel FROM Areas WHERE area_id = NEW.area_id1) + 1 <> (SELECT nivel FROM Areas WHERE area_id = NEW.area_id2)
+  IF (SELECT level FROM Areas WHERE area_id = NEW.area_id1) + 1 <> (SELECT level FROM Areas WHERE area_id = NEW.area_id2)
   THEN
     RAISE EXCEPTION 'No se puede crear la relación entre áreas con niveles no consecutivos';
   END IF;
