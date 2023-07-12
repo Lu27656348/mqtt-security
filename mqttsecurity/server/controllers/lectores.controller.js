@@ -9,9 +9,12 @@ export const getLector = async (req,res)=>{
     console.log('Obteniendo lector');
     console.log(req.params.id);
     const [result] = await pool.query('SELECT * FROM lectores WHERE id = ?',[req.params.id]);
+    if (result.length === 0)
+       return  res.status(404).json({message: 'Lector no encontrado'});
     res.json(result[0]);
 }
 export const createLector = async (req,res)=>{
+    console.log('Creando lector');
     const {name,last_name,photo,type} = req.body;
     // console.log(req.body);
     const result = await pool.query(
@@ -27,9 +30,23 @@ export const createLector = async (req,res)=>{
     
 
 }
-export const updateLector = (req,res)=>{
-    res.send('Actualizando lector');
-}
-export const deleteLector = (req,res)=>{
-    res.send('Borrando lector');
-}
+export const updateLector = async (req, res) => {
+    console.log('Actualizando lector');
+    const id = req.params.id;
+    const { name, last_name, photo, type } = req.body;
+    const [result] = await pool.query('UPDATE lectores SET name = ?, last_name = ?, photo = ?, type = ? WHERE id = ?', [name, last_name, photo, type, id]);
+    if (result.affectedRows === 0) {
+        return res.status(404).json({ message: 'Lector no encontrado' });
+    }
+    res.json({ message: 'Lector actualizado correctamente' });
+};
+
+export const deleteLector = async (req, res) => {
+    console.log('Eliminando lector');
+    const id = req.params.id;
+    const [result] = await pool.query('DELETE FROM lectores WHERE id = ?', [id]);
+    if (result.affectedRows === 0) {
+        return res.status(404).json({ message: 'Lector no encontrado' });
+    }
+    res.json({ message: 'Lector eliminado correctamente' });
+};
