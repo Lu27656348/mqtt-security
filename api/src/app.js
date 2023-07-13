@@ -12,6 +12,9 @@ import jwt from 'jsonwebtoken';
 import routerAreas from './routes/areas.routes.js';
 import routerDevices from './routes/devices.routes.js';
 import routerUser from './routes/user.routes.js'
+import routerRol from './routes/Rol.routes.js';
+import routerCard from './routes/card.routes.js'
+import routerTree from './routes/Areas_tree.routes.js'
 
 
 app.use(cors());
@@ -22,6 +25,10 @@ app.use(express.json());
 app.use(routerAreas);
 app.use(routerDevices);
 app.use(routerUser);
+app.use(routerRol);
+app.use(routerCard);
+app.use(routerTree);
+
 app.post('/login', (req, res) => {
     
     if (!req.body.usuario || !req.body.password) {
