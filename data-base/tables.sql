@@ -56,10 +56,10 @@ CREATE TABLE User_types (
 );
 
 CREATE TABLE User_cards (
-	rol_id INT,
+	user_id INT,
     card_id VARCHAR(9),
-	PRIMARY KEY (rol_id, card_id),
-	FOREIGN KEY (rol_id) REFERENCES Roles (rol_id),
+	PRIMARY KEY (user_id, card_id),
+	FOREIGN KEY (user_id) REFERENCES Users (user_id),
 	FOREIGN KEY (card_id) REFERENCES Cards (card_id)
 );
 
