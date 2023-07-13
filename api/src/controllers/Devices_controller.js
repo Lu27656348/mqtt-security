@@ -3,7 +3,6 @@ import sequelize from '../database/database_connect.js';
 import { QueryTypes } from 'sequelize';
 
 export const getAllDevices = async (req,res) => {
-    console.log("Hola")
     const search = await Devices.findAll();
     res.json(search);
 }

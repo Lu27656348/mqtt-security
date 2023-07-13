@@ -1,7 +1,7 @@
 import sequelize  from '../database/database_connect.js';
 import { DataTypes } from "sequelize"
 
-const Card = sequelize.define('Cards',{
+const Card = sequelize.define('cards',{
     card_id: {
         type: DataTypes.STRING(9),
         primaryKey: true,

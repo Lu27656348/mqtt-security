@@ -11,6 +11,7 @@ import jwt from 'jsonwebtoken';
 
 import routerAreas from './routes/areas.routes.js';
 import routerDevices from './routes/devices.routes.js';
+import routerUser from './routes/user.routes.js'
 
 
 app.use(cors());
@@ -20,13 +21,10 @@ app.use(express.json());
 
 app.use(routerAreas);
 app.use(routerDevices);
+app.use(routerUser);
 app.post('/login', (req, res) => {
-    console.log("Datos recibidos del login:");
-    console.log("---------------------------");
-    console.log(req.body);
     
     if (!req.body.usuario || !req.body.password) {
-      console.log("El servidor recibio basura");
       return res.status(400).json({
         error: "Los campos de usuario y contraseña son obligatorios"
       });
