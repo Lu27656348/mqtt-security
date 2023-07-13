@@ -35,6 +35,8 @@ CREATE TABLE Areas (
 
 CREATE TABLE Devices (
   device_id SERIAL,
+  name VARCHAR(255) NOT NULL,
+  password VARCHAR(255) NOT NULL,
   topic_res VARCHAR(255) NOT NULL,
   topic_req VARCHAR(255) NOT NULL,
   type VARCHAR(255) NOT NULL,
