@@ -20,7 +20,8 @@ CREATE TABLE Users (
   name VARCHAR(255) NOT NULL,
   last_name VARCHAR(255) NOT NULL,
   photo BYTEA,
-  type VARCHAR(255) NOT NULL,
+  departament VARCHAR(50) NOT NULL,
+  status VARCHAR(12) NOT NULL,
   PRIMARY KEY (user_id)
 );
 
@@ -37,7 +38,7 @@ CREATE TABLE Devices (
   topic_res VARCHAR(255) NOT NULL,
   topic_req VARCHAR(255) NOT NULL,
   type VARCHAR(255) NOT NULL,
-  status VARCHAR(255) NOT NULL,
+  status VARCHAR(255) DEFAULT 'OFF' NOT NULL,
   token VARCHAR(255),
   area_id INT,
   PRIMARY KEY (device_id),
@@ -69,11 +70,11 @@ CREATE TABLE Card_access_points (
 );
 
 CREATE TABLE Roles_access_points (
-    card_id VARCHAR(9),
+    rol_id INT,
 	area_id INT,
-	PRIMARY KEY (card_id, area_id),
+	PRIMARY KEY (rol_id, area_id),
 	FOREIGN KEY (area_id) REFERENCES Areas (area_id),
-	FOREIGN KEY (card_id) REFERENCES Cards (card_id)
+	FOREIGN KEY (rol_id) REFERENCES Roles (rol_id)
 );
 
 CREATE TABLE Card_access (
