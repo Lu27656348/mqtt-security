@@ -4,11 +4,10 @@ import { Dashboard } from "./layouts";
 import { Login } from "./pages/auth";
 
 function App() {
-  const token = localStorage.getItem("token");
   return (
     <Routes>
         {/* REDIRIGE AL PANEL DE CONTROL SI HAY UN USUARIO LOGUEADO */}
-      <Route element={<RedirectPanel token={token} />}>
+      <Route element={<RedirectPanel/>}>
           <Route path="login" element={<Login />} />
       </Route>
               
