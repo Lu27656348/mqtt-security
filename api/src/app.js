@@ -37,8 +37,8 @@ app.post('/login', (req, res) => {
       });
     }
     
-    console.log(req.body.usuario);
-    console.log(req.body.password);
+    // console.log(req.body.usuario);
+    // console.log(req.body.password);
     
     fetch("http://localhost:3030/authenticate", {
       method: 'POST',
@@ -58,8 +58,6 @@ app.post('/login', (req, res) => {
       }
     })
     .then(data => {
-      console.log("data");
-      console.log(data);
       if (!data.error) {
         const payload = {
           check: true
@@ -76,7 +74,7 @@ app.post('/login', (req, res) => {
       }
     })
     .catch(error => {
-      console.log("error -> " + error);
+      // console.log("error -> " + error);
       res.status(500).json({
         error: "Ha ocurrido un error en el servidor"
       });
