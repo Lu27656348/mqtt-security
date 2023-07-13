@@ -12,11 +12,11 @@ const Card_access = sequelize.define('Card_access',{
     },
     access_date: {
         type: DataTypes.DATE,
-        primaryKey: true
+        allowNull: false
     },
     access_data: {
         type: DataTypes.STRING,
-        primaryKey: true
+        allowNull: false
     },
 },{
     timestamps: false
