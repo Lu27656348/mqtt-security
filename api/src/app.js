@@ -40,7 +40,7 @@ app.post('/login', (req, res) => {
     console.log(req.body.usuario);
     console.log(req.body.password);
     
-    fetch("http://localhost:3000/authenticate", {
+    fetch("http://localhost:3030/authenticate", {
       method: 'POST',
       body: JSON.stringify({
         name: req.body.usuario,
