@@ -21,7 +21,7 @@ const cabecera = {
 client.on('connect', () => {
   console.log('Connected');
   
-  axios.post('http://localhost:3000/login', credenciales, { headers: cabecera })
+  axios.post('http://localhost:3030/login', credenciales, { headers: cabecera })
   .then(function (response) {
       token = response.data.token;
       //obtener todos los topicos para suscribirse
@@ -32,7 +32,7 @@ client.on('connect', () => {
         'Custom-Header': 'Custom-Value'
       };
     
-      axios.get('http://localhost:3000/auth/topics', {headers: headers})
+      axios.get('http://localhost:3030/auth/topics', {headers: headers})
       .then(function (response) {
         const topics = response.data; 
         if(topics.length == 0)
@@ -119,8 +119,8 @@ client.on('message', function (topic, message) {
     });
 });
 
-app.listen(process.env.PORT || 3030, function () {
-  console.log(`Server listening on port ${process.env.PORT || 3030}`);
+app.listen(process.env.PORT || 3031, function () {
+  console.log(`Server listening on port ${process.env.PORT || 3031}`);
 });
 
 
