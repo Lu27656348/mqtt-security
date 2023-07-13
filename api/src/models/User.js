@@ -1,7 +1,7 @@
 import sequelize  from '../database/database_connect.js';
 import { DataTypes } from "sequelize"
 
-const User = sequelize.define('Users',{
+const User = sequelize.define('users',{
     user_id: {
         type: DataTypes.STRING(9),
         primaryKey: true
