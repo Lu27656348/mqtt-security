@@ -1,7 +1,7 @@
 import sequelize  from '../database/database_connect.js';
 import { DataTypes } from "sequelize"
 
-const devices = sequelize.define('Devices',{
+const Devices = sequelize.define('devices',{
     device_id: {
         type: DataTypes.INTEGER,
         primaryKey: true
@@ -29,9 +29,18 @@ const devices = sequelize.define('Devices',{
     area_id: {
         type: DataTypes.INTEGER,
         allowNull: true
-    }
+    },
+    name: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    password: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+
 },{
     timestamps: false
 })
 
-export default Card_access_points;
+export default Devices;

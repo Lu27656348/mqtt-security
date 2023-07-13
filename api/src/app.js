@@ -10,6 +10,7 @@ let app = express();
 import jwt from 'jsonwebtoken';
 
 import routerAreas from './routes/areas.routes.js';
+import routerDevices from './routes/devices.routes.js';
 
 
 app.use(cors());
@@ -18,6 +19,7 @@ app.use(express.json());
 
 
 app.use(routerAreas);
+app.use(routerDevices);
 app.post('/login', (req, res) => {
     console.log("Datos recibidos del login:");
     console.log("---------------------------");
@@ -33,7 +35,7 @@ app.post('/login', (req, res) => {
     console.log(req.body.usuario);
     console.log(req.body.password);
     
-    fetch("http://localhost:3000/auth/users/authenticate", {
+    fetch("http://localhost:3000/authenticate", {
       method: 'POST',
       body: JSON.stringify({
         name: req.body.usuario,
