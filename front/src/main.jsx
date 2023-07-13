@@ -20,7 +20,6 @@ import { SnackbarProvider } from "notistack";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <SnackbarProvider maxSnack={1} autoHideDuration={1000}>
-    <React.StrictMode>
       <BrowserRouter>
         <ThemeProvider>
           <MaterialTailwindControllerProvider>
@@ -28,6 +27,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           </MaterialTailwindControllerProvider>
         </ThemeProvider>
       </BrowserRouter>
-    </React.StrictMode>
   </SnackbarProvider>
 );

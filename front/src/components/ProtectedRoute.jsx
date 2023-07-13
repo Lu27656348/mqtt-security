@@ -8,7 +8,9 @@ export const RedirectPanel = ({ user, token, children,redirectTo = "/dashboard/h
   return children ? children : <Outlet />;
 };
 
-export const RedirectLogin = ({ token,children, redirectTo = "/login",}) => {
+export const RedirectLogin = ({ children, redirectTo = "/login",}) => {
+  
+  const token = localStorage.getItem("token");
   if (!token) {
     return <Navigate to={redirectTo} />;
   }

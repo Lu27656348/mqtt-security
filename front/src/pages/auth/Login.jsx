@@ -39,8 +39,8 @@ export function Login() {
       if (res.data.error) {;
         enqueueSnackbar(res.data.error, { variant: "error" });
       } else {
-        enqueueSnackbar("Gracias por volver :D ", { variant: "success" });
         localStorage.setItem("token", res.data.token);
+        enqueueSnackbar("Gracias por volver :D ", { variant: "success" });
         navigate("../dashboard/home");
       }
     } catch (error) {

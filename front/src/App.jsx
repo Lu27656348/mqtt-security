@@ -13,7 +13,7 @@ function App() {
       </Route>
               
       {/* PARA ACCEDER DEBE DE EXISTIR UN UNSUARIO LOGUEADO */}
-      <Route element={<RedirectLogin token={token} />}> 
+      <Route element={<RedirectLogin />}> 
         <Route path="/dashboard/*" element={<Dashboard />} />
       </Route>
       
