@@ -48,19 +48,19 @@ export const routes = [
       },
     ],
   },
-  {
-    title: "Cerrar Sesion",
-    layout: "login",
-    pages: [
-      {
-        icon: <ArrowRightOnRectangleIcon {...icon} />,
-        name: "Cerrar Sesion",
-        path: "",
-        element: <Login />,
-      },
+  // {
+  //   title: "Cerrar Sesion",
+  //   layout: "login",
+  //   pages: [
+  //     {
+  //       icon: <ArrowRightOnRectangleIcon {...icon} />,
+  //       name: "Cerrar Sesion",
+  //       path: "",
+  //       element: <Login />,
+  //     },
      
-    ],
-  },
+  //   ],
+  // },
 ];
 
 export default routes;
