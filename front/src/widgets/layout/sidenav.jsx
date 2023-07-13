@@ -105,9 +105,9 @@ export function Sidenav({ brandImg, brandName, routes }) {
         ))}
         {/* CERRAR SESION */}
         <ul className="mb-4 flex flex-col gap-1"> 
-            <li >
+            <li className="text-center">
                 <Button
-                  className="flex items-center gap-4 px-4 capitalize"
+                  className="flex items-center gap-4 px-4 capitalize text-white text-center"
                   fullWidth
                   onClick={cerrarSesion}
                 >
