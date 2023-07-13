@@ -223,6 +223,7 @@ INSERT INTO Devices (topic_res, topic_req, type, status) VALUES ('ucab/bibliotec
 INSERT INTO Devices (topic_res, topic_req, type, status) VALUES ('ucab/biblioteca/piso2/rectorado', 'ucab/biblioteca/piso2/rectorado/hear', 'access control', 'inactive');
 INSERT INTO Devices (topic_res, topic_req, type, status) VALUES ('ucab/biblioteca/piso2', 'ucab/biblioteca/piso2/hear', 'energy management', 'active');
 INSERT INTO Devices (topic_res, topic_req, type, status) VALUES ('ucab/biblioteca/piso2/vicerectorado', 'ucab/biblioteca/piso2/vicerectorado/hear', 'flood control', 'inactive');
+INSERT INTO Devices (topic_res, topic_req, type) VALUES ('ucab/biblioteca/piso2/vicerectorado', 'ucab/biblioteca/piso2/vicerectorado/hear', 'flood control');
 
 select * from Devices;
 

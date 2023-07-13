@@ -38,7 +38,7 @@ CREATE TABLE Devices (
   topic_res VARCHAR(255) NOT NULL,
   topic_req VARCHAR(255) NOT NULL,
   type VARCHAR(255) NOT NULL,
-  status VARCHAR(255) NOT NULL,
+  status VARCHAR(255) DEFAULT 'OFF' NOT NULL,
   token VARCHAR(255),
   area_id INT,
   PRIMARY KEY (device_id),
