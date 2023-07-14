@@ -8,6 +8,7 @@ import accept from '../images/accept.png'
 import cancel from '../images/cancel.png';
 import desconectado from '../images/desconectado.png';
 import conectado from '../images/conectado.png';
+import denegado from '../images/denegado.jpg';
 
 function Lector({device_id,status,topic_req,getLectores}) {
     const { enqueueSnackbar } = useSnackbar();
@@ -39,11 +40,13 @@ function Lector({device_id,status,topic_req,getLectores}) {
     client.on('message', function (topic, message) {
         if(estatus==='ON'){
             let mensaje=JSON.parse(message.toString());
-            if(mensaje.status=='OK')
+            if(mensaje.status && mensaje.status=='OK')
                 setImagen(accept);
             else
-                setImagen(cancel);
+                setImagen(cancel);uth
             client.unsubscribe(topic_req+'/escucha');
+        }else{
+            setImagen(denegado);
         }
     });
 
