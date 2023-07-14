@@ -5,7 +5,7 @@ const axios = require ('axios');
 
 app.use(express.json());
 
-const client  = mqtt.connect('mqtt://broker.emqx.io:1883');
+const client  = mqtt.connect('wss://broker.emqx.io:8084/mqtt');
 let token = '';
 const credenciales = {
   usuario: 'Nahum',
@@ -38,7 +38,7 @@ client.on('connect', () => {
         if(topics.length == 0)
           return res.status(204).send('No se encontraron tópicos');
         topics.forEach(topic => {
-          let nombre = topic.topic_res;
+          let nombre = topic.topic_req;
           client.subscribe(nombre);
         }); 
       })
@@ -130,17 +130,19 @@ client.on('message', function (topic, message) {
     'Content-Type': 'application/json',
     'Custom-Header': 'Custom-Value'
   };
+  let escucha = topic+'/escucha';
+  client.publish(escucha, JSON.stringify(data));
 
   // Enviar una petición POST al Aplication Server para validar permisos y retornar respuesta al broker
-  axios.post('http://localhost:3030/auth/validation-permission', data, { headers: headers })
-    .then(function (response) {
-      // Comprobar si el campo "status" de la respuesta es "success"
-      client.publish(`${topic}/escucha`, JSON.stringify(response.data));
+  // axios.post('http://localhost:3030/auth/validation-permission', data, { headers: headers })
+  //   .then(function (response) {
+  //     // Comprobar si el campo "status" de la respuesta es "success"
+  //     client.publish(`${topic}/escucha`, JSON.stringify(response.data));
       
-    })
-    .catch(function (error) {
-      console.error('Error al intentar enviar datos para validar permisos:');
-    });
+  //   })
+  //   .catch(function (error) {
+  //     console.error('Error al intentar enviar datos para validar permisos:');
+  //   });
 });
 
 app.listen(process.env.PORT || 3031, function () {

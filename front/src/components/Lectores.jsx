@@ -26,7 +26,7 @@ function Lectores() {
 
   return (
     <>
-      <div className="mt-6 grid grid-cols-1 gap-12 md:grid-cols-2 xl:grid-cols-4">
+      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-12 md:grid-cols-3">
         {lectores && lectores.map((lector) => (
           <Lector key={lector.device_id} getLectores={getLectores} device_id={lector.device_id} status={lector.status} topic_req={lector.topic_req}  />       
          ))}

@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from 'react'
 
-import {Switch} from "@material-tailwind/react";
+import {Button, Switch} from "@material-tailwind/react";
 import axios from '@/api/axios';
-import mqtt from "mqtt";
+import mqtt from 'mqtt/dist/mqtt'
+import { useSnackbar } from 'notistack';
+
 
 function Lector({device_id,status,topic_req,getLectores}) {
-
+    const { enqueueSnackbar } = useSnackbar();
     const [estatus, setEstatus] = useState(status);
     const [mqttClient, setMqttClient] = useState(null);
 
     useEffect(() => {
       if (status === "ON") {
         // Establecer la conexión MQTT y suscribirse al tópico
-        const client = mqtt.connect("mqtt://broker.emqx.io:1883");
+        const client = mqtt.connect("wss://broker.emqx.io:8084/mqtt");
         client.on("connect", function () {
           console.log(`Conectado a MQTT en el dispositivo ${device_id}`);
           client.subscribe(topic_req);
@@ -50,6 +52,27 @@ function Lector({device_id,status,topic_req,getLectores}) {
         setEstatus(isChecked ? "ON" : "OFF");
     }
 
+    function publicar(){
+        if(estatus==='ON'){
+            let data={
+                lector_id:device_id,
+                tarjeta_id:"tarjeta"
+            };    
+            mqttClient.publish(topic_req, JSON.stringify(data));
+            enqueueSnackbar("Mensaje publicado ", { variant: "success" });
+        }else{
+            enqueueSnackbar("No se puede publicar con el lector desconectado", { variant: "error" });
+        }
+    }
+
+    
+    mqttClient.on('message', function (topic, message) {
+        if(estatus==='ON'){
+            console.log(JSON.parse(message.toString()))
+        }
+    });
+
+
     return (
         <>
             <div className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md">
@@ -63,7 +86,7 @@ function Lector({device_id,status,topic_req,getLectores}) {
                  
               </div>
               <div className="p-6 border-t border-blue-gray-50 px-6 py-5">
-                    <div className="antialiased font-bold font-sans text-sm leading-normal flex items-center text-gray-800">    
+                    <div className="flex justify-between antialiased font-bold font-sans text-sm leading-normal items-center text-gray-800">    
                         <Switch
                             id={device_id}
                             label={estatus==='OFF' ? 'Desconectado' : 'Conectado'}
@@ -73,6 +96,7 @@ function Lector({device_id,status,topic_req,getLectores}) {
                             }}
                             onChange={(event) => handleSwitchChange(event, device_id)}
                         />
+                        <Button onClick={publicar}>Publicar</Button>
                     </div>
               </div>
             </div>
