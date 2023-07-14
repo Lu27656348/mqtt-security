@@ -93,7 +93,7 @@ app.post('/mqtt/updateunsubscribe', (req, res) => {
   if (!nuevo ||  !viejo) {
     return res.status(400).send('Debe proporcionar un topic nuevo y viejo');
   }
-   
+
   if(nuevo!==viejo){
     client.unsubscribe(viejo, (err) => {
       if (err) {
@@ -115,6 +115,7 @@ app.post('/mqtt/updateunsubscribe', (req, res) => {
     });
   }
 });
+
 //Recibe los mensajes que vienen del broker
 client.on('message', function (topic, message) {
   console.log('Mensaje recibido en el topic:', topic, 'mensaje: ', message.toString());
