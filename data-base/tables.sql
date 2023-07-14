@@ -1,3 +1,19 @@
+DROP TABLE IF EXISTS roles_access_points;
+DROP TABLE IF EXISTS card_access_points;
+DROP TABLE IF EXISTS areas_time;
+DROP TABLE IF EXISTS user_cards;
+DROP TABLE IF EXISTS user_types;
+
+DROP TABLE IF EXISTS card_access;
+DROP TABLE IF EXISTS areas_tree;
+
+DROP TABLE IF EXISTS devices;
+DROP TABLE IF EXISTS areas;
+DROP TABLE IF EXISTS cards;
+DROP TABLE IF EXISTS client;
+DROP TABLE IF EXISTS roles;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS client;
 -- **************************************************************************************************
 -- ELIMINACIONES DE TABLAS
 DROP TABLE IF EXISTS Areas_time;
@@ -15,6 +31,7 @@ DROP TABLE IF EXISTS Roles;
 
 -- **************************************************************************************************
 -- CREACIONES DE TABLAS
+
 
 CREATE TABLE Roles (
   rol_id SERIAL,
@@ -39,7 +56,12 @@ CREATE TABLE Users (
   status VARCHAR(12) NOT NULL,
   PRIMARY KEY (user_id)
 );
-
+CREATE TABLE Client (
+	client_id SERIAL,
+	name TEXT NOT NULL,
+	password TEXT NOT NULL,
+	PRIMARY KEY (client_id)
+);
 CREATE TABLE Areas (
 	area_id SERIAL,
 	area_topic VARCHAR(255) NOT NULL,

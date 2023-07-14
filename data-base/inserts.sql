@@ -167,21 +167,21 @@ select * from Roles;
 
 -- **************************************************************************************************
 --INSERTS EN CARDS
-INSERT INTO Cards (card_id, status) VALUES ('8000001', 'activo');
-INSERT INTO Cards (card_id, status) VALUES ('9000002', 'inactivo');
-INSERT INTO Cards (card_id, status) VALUES ('10000003', 'activo');
-INSERT INTO Cards (card_id, status) VALUES ('12000004', 'perdido');
-INSERT INTO Cards (card_id, status) VALUES ('15000005', 'activo');
-INSERT INTO Cards (card_id, status) VALUES ('18000006', 'inactivo');
-INSERT INTO Cards (card_id, status) VALUES ('20000007', 'activo');
-INSERT INTO Cards (card_id, status) VALUES ('22000008', 'inactivo');
-INSERT INTO Cards (card_id, status) VALUES ('25000009', 'perdido');
-INSERT INTO Cards (card_id, status) VALUES ('27000010', 'activo');
-INSERT INTO Cards (card_id, status) VALUES ('29000011', 'inactivo');
-INSERT INTO Cards (card_id, status) VALUES ('30000012', 'activo');
-INSERT INTO Cards (card_id, status) VALUES ('31000013', 'inactivo');
-INSERT INTO Cards (card_id, status) VALUES ('32000014', 'activo');
-INSERT INTO Cards (card_id, status) VALUES ('33000015', 'perdido');
+INSERT INTO Cards (card_id, status) VALUES ('8000001', 'active');
+INSERT INTO Cards (card_id, status) VALUES ('9000002', 'disable');
+INSERT INTO Cards (card_id, status) VALUES ('10000003', 'active');
+INSERT INTO Cards (card_id, status) VALUES ('12000004', 'active');
+INSERT INTO Cards (card_id, status) VALUES ('15000005', 'active');
+INSERT INTO Cards (card_id, status) VALUES ('18000006', 'active');
+INSERT INTO Cards (card_id, status) VALUES ('20000007', 'active');
+INSERT INTO Cards (card_id, status) VALUES ('22000008', 'active');
+INSERT INTO Cards (card_id, status) VALUES ('25000009', 'lost');
+INSERT INTO Cards (card_id, status) VALUES ('27000010', 'active');
+INSERT INTO Cards (card_id, status) VALUES ('29000011', 'active');
+INSERT INTO Cards (card_id, status) VALUES ('30000012', 'active');
+INSERT INTO Cards (card_id, status) VALUES ('31000013', 'active');
+INSERT INTO Cards (card_id, status) VALUES ('32000014', 'active');
+INSERT INTO Cards (card_id, status) VALUES ('33000015', 'lost');
 
 select * from Cards;
 
