@@ -39,12 +39,12 @@ export function Footer({ brandName, brandLink, routes }) {
 }
 
 Footer.defaultProps = {
-  brandName: "Creative Tim",
-  brandLink: "https://www.creative-tim.com",
+  brandName: "Profesor: Jess Larez",
+  brandLink: "https://www.linkedin.com/in/jlarez?originalSubdomain=ve",
   routes: [
-    { name: "Creative Tim", path: "https://www.creative-tim.com" },
-    { name: "About Us", path: "https://www.creative-tim.com/presentation" },
-    { name: "Blog", path: "https://www.creative-tim.com/blog" },
+    { name: "Profesor: Jesus Larez", path: "https://www.linkedin.com/in/jlarez?originalSubdomain=ve" },
+    { name: "Ucab Guayana", path: "https://www.ucab.edu.ve/guayana/" },
+    { name: "Informatica", path: "https://ingenieria.ucab.edu.ve/informatica/" },
     { name: "License", path: "https://www.creative-tim.com/license" },
   ],
 };

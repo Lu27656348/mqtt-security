@@ -72,7 +72,7 @@ function Lector({device_id,status,topic_req,getLectores}) {
                 status:'OK' 
             };   
             if (client && client.subscriptions && client.subscriptions[topic_req]) {
-                console.log('El cliente MQTT está suscrito al canal "mytopic"');
+                console.log('El cliente MQTT está suscrito al canal "topic_req"');
               } else {
                   client.subscribe(topic_req+'/escucha'); 
               }
@@ -112,7 +112,7 @@ function Lector({device_id,status,topic_req,getLectores}) {
                                 }}
                                 onChange={(event) => handleSwitchChange(event, device_id)}
                             />
-                            <Button onClick={publicar}>Publicar</Button>
+                            <Button onClick={publicar}>Simular</Button>
                         </div>
                 </div>
             </div>
