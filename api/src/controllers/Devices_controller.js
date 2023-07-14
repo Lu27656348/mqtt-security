@@ -141,17 +141,29 @@ export const changeStatus = async (req,res) => {
 export const validatePermission = async (req,res) => {
     const { card_id, device_id } = req.body;
     try {
-        console.log(card_id);
         const device = await Devices.findByPk(device_id);
         const card = await Card.findByPk(card_id);
-        console.log("Existe");
         if(device && card){
             //Primero extraemos todos los permisos asociados a la carta
             sequelize.query(`
+            SELECT p_rol.area_topic
+            FROM (SELECT Ar.area_id,Ar.area_topic
+            FROM Areas AS Ar, 
+            Cards AS Ca,
+            Roles AS Ro, 
+            roles_access_points AS RAP, 
+            User_types AS UT,
+	        User_cards AS UC
+            WHERE Ca.card_id = :card_id
+            AND UC.card_id = Ca.card_id
+            AND UC.user_id = UT.user_id
+            AND UT.rol_id = RAP.rol_id
+            AND Ar.area_id = RAP.area_id) AS p_rol
+            UNION 
             SELECT Ar.area_topic
             FROM Areas AS Ar, Cards AS Ca, Card_access_points AS CAP
             WHERE Ca.card_id = :card_id
-            AND Ar.area_id = CAP.area_id;
+            AND Ar.area_id = CAP.area_id
             `, {
                 replacements: {
                     card_id: card_id
@@ -159,11 +171,26 @@ export const validatePermission = async (req,res) => {
                 type: sequelize.QueryTypes.SELECT
             })
             .then( response => {
-                console.log("response")
-                console.log(response)
+                
                 if(response){
                     //Comparamos todos los permisos con el topico principal del device y si coincide con alguno, es un usuario autorizado
-                    
+                    let flag = 0;
+                    response.forEach( (topic) => {
+                        if (topic.area_topic == device.topic_res){
+                            if(device.type == "1"){
+                                flag = 1;
+                            }
+                        }
+                    });
+                    if(flag === 1){
+                        return res.status(200).json({
+                            status: "OK",
+                        })
+                    }
+                    return res.status(500).json({
+                        status: "denied",
+                        message: "User have no permission for this area"
+                    })
                 }
             })
 

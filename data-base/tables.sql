@@ -141,3 +141,5 @@ CREATE TABLE Areas_time (
 	PRIMARY KEY (area_id, hora_entrada, hora_salida),
 	FOREIGN KEY (area_id) REFERENCES Areas (area_id)	
 );
+
+
