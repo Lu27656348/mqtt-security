@@ -87,6 +87,34 @@ app.post('/mqtt/unsubscribe', (req, res) => {
   });
 });
 
+//Actualiza un topico
+app.post('/mqtt/updateunsubscribe', (req, res) => {
+  const { nuevo,viejo } = req.body;
+  if (!nuevo ||  !viejo) {
+    return res.status(400).send('Debe proporcionar un topic nuevo y viejo');
+  }
+   
+  if(nuevo!==viejo){
+    client.unsubscribe(viejo, (err) => {
+      if (err) {
+        console.error('Error al desuscribirse del topic:', viejo);
+        res.status(500).send('Error al desuscribirse del topic');
+      } else {
+        console.log('Desuscripto del topic:', viejo);
+        res.status(200).send('Desuscripto del topic: ' + viejo);
+      }
+    });
+    client.subscribe(nuevo, (err) => {
+      if (err) {
+        console.error('Error al suscribirse al topic:', nuevo);
+        res.status(500).send('Error al suscribirse al topic');
+      } else {
+        console.log('Suscrito al topic:', nuevo);
+        res.status(200).send('Suscrito al topic: ' + nuevo);
+      }
+    });
+  }
+});
 //Recibe los mensajes que vienen del broker
 client.on('message', function (topic, message) {
   console.log('Mensaje recibido en el topic:', topic, 'mensaje: ', message.toString());
@@ -95,11 +123,6 @@ client.on('message', function (topic, message) {
   const data = JSON.parse(message.toString());
 
   // Configurar los encabezados de la solicitud
-  // let pub={
-  //   id_device : '',
-  //   id_tarjeta: '',
-  //   token,
-  // }
   const headers = {
     'Authorization': `Bearer ${data.token}`,
     'Accept': 'application/json',
