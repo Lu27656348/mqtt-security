@@ -212,18 +212,18 @@ select * from Users;
 
 -- **************************************************************************************************
 --INSERTS EN DEVICES
-INSERT INTO Devices (topic_res, topic_req, type, status) VALUES ('ucab/biblioteca', 'ucab/biblioteca/hear', 'thermostat', 'active');
-INSERT INTO Devices (topic_res, topic_req, type, status) VALUES ('ucab/modulo1', 'ucab/modulo1/hear', 'irrigation', 'inactive');
-INSERT INTO Devices (topic_res, topic_req, type, status) VALUES ('ucab/modulo1/piso1', 'ucab/modulo1/piso1/hear', 'lighting', 'active');
-INSERT INTO Devices (topic_res, topic_req, type, status) VALUES ('ucab/modulo1/piso1/a1-11', 'ucab/modulo1/piso1/a1-11/hear', 'security', 'inactive');
-INSERT INTO Devices (topic_res, topic_req, type, status) VALUES ('ucab/modulo2/piso2/a2-22', 'ucab/modulo2/piso2/a2-22/hear', 'irrigation', 'active');
-INSERT INTO Devices (topic_res, topic_req, type, status) VALUES ('ucab/modulo2/piso1', 'ucab/modulo2/piso1/hear', 'fire alarm', 'active');
-INSERT INTO Devices (topic_res, topic_req, type, status) VALUES ('ucab/modulo3', 'ucab/modulo3/hear', 'air quality', 'inactive');
-INSERT INTO Devices (topic_res, topic_req, type, status) VALUES ('ucab/biblioteca/piso1', 'ucab/biblioteca/piso1/hear', 'irrigation', 'active');
-INSERT INTO Devices (topic_res, topic_req, type, status) VALUES ('ucab/biblioteca/piso2/rectorado', 'ucab/biblioteca/piso2/rectorado/hear', 'access control', 'inactive');
-INSERT INTO Devices (topic_res, topic_req, type, status) VALUES ('ucab/biblioteca/piso2', 'ucab/biblioteca/piso2/hear', 'energy management', 'active');
-INSERT INTO Devices (topic_res, topic_req, type, status) VALUES ('ucab/biblioteca/piso2/vicerectorado', 'ucab/biblioteca/piso2/vicerectorado/hear', 'flood control', 'inactive');
-INSERT INTO Devices (topic_res, topic_req, type) VALUES ('ucab/biblioteca/piso2/vicerectorado', 'ucab/biblioteca/piso2/vicerectorado/hear', 'flood control');
+INSERT INTO Devices (topic_res, topic_req, type, status, name, password) VALUES ('ucab/biblioteca', 'ucab/biblioteca/hear', 'thermostat', 'active', 'device1', 'password1');
+INSERT INTO Devices (topic_res, topic_req, type, status, name, password) VALUES ('ucab/modulo1', 'ucab/modulo1/hear', 'irrigation', 'inactive', 'device2', 'password2');
+INSERT INTO Devices (topic_res, topic_req, type, status, name, password) VALUES ('ucab/modulo1/piso1', 'ucab/modulo1/piso1/hear', 'lighting', 'active', 'device3', 'password3');
+INSERT INTO Devices (topic_res, topic_req, type, status, name, password) VALUES ('ucab/modulo1/piso1/a1-11', 'ucab/modulo1/piso1/a1-11/hear', 'security', 'inactive', 'device4', 'password4');
+INSERT INTO Devices (topic_res, topic_req, type, status, name, password) VALUES ('ucab/modulo2/piso2/a2-22', 'ucab/modulo2/piso2/a2-22/hear', 'irrigation', 'active', 'device5', 'password5');
+INSERT INTO Devices (topic_res, topic_req, type, status, name, password) VALUES ('ucab/modulo2/piso1', 'ucab/modulo2/piso1/hear', 'fire alarm', 'active', 'device6', 'password6');
+INSERT INTO Devices (topic_res, topic_req, type, status, name, password) VALUES ('ucab/modulo3', 'ucab/modulo3/hear', 'air quality', 'inactive', 'device7', 'password7');
+INSERT INTO Devices (topic_res, topic_req, type, status, name, password) VALUES ('ucab/biblioteca/piso1', 'ucab/biblioteca/piso1/hear', 'irrigation', 'active', 'device8', 'password8');
+INSERT INTO Devices (topic_res, topic_req, type, status, name, password) VALUES ('ucab/biblioteca/piso2/rectorado', 'ucab/biblioteca/piso2/rectorado/hear', 'access control', 'inactive', 'device9', 'password9');
+INSERT INTO Devices (topic_res, topic_req, type, status, name, password) VALUES ('ucab/biblioteca/piso2', 'ucab/biblioteca/piso2/hear', 'energy management', 'active', 'device10', 'password10');
+INSERT INTO Devices (topic_res, topic_req, type, status, name, password) VALUES ('ucab/biblioteca/piso2/vicerectorado', 'ucab/biblioteca/piso2/vicerectorado/hear', 'flood control', 'inactive', 'device11', 'password11');
+INSERT INTO Devices (topic_res, topic_req, type, name, password) VALUES ('ucab/biblioteca/piso2/vicerectorado', 'ucab/biblioteca/piso2/vicerectorado/hear', 'flood control', 'device12', 'password12');
 
 select * from Devices;
 
@@ -251,23 +251,26 @@ select * from User_types;
 
 --DELETE FROM User_types;
 
+
+
+
 -- **************************************************************************************************
 --INSERTS EN USER_CARDS
-INSERT INTO User_cards (rol_id, card_id) VALUES (1, '8000001');
-INSERT INTO User_cards (rol_id, card_id) VALUES (2, '9000002');
-INSERT INTO User_cards (rol_id, card_id) VALUES (3, '10000003');
-INSERT INTO User_cards (rol_id, card_id) VALUES (4, '12000004');
-INSERT INTO User_cards (rol_id, card_id) VALUES (1, '15000005');
-INSERT INTO User_cards (rol_id, card_id) VALUES (2, '18000006');
-INSERT INTO User_cards (rol_id, card_id) VALUES (3, '20000007');
-INSERT INTO User_cards (rol_id, card_id) VALUES (4, '22000008');
-INSERT INTO User_cards (rol_id, card_id) VALUES (1, '25000009');
-INSERT INTO User_cards (rol_id, card_id) VALUES (2, '27000010');
-INSERT INTO User_cards (rol_id, card_id) VALUES (3, '29000011');
-INSERT INTO User_cards (rol_id, card_id) VALUES (4, '30000012');
-INSERT INTO User_cards (rol_id, card_id) VALUES (1, '31000013');
-INSERT INTO User_cards (rol_id, card_id) VALUES (2, '32000014');
-INSERT INTO User_cards (rol_id, card_id) VALUES (3, '33000015');
+INSERT INTO User_cards (user_id, card_id) VALUES (1, '8000001');
+INSERT INTO User_cards (user_id, card_id) VALUES (2, '9000002');
+INSERT INTO User_cards (user_id, card_id) VALUES (3, '10000003');
+INSERT INTO User_cards (user_id, card_id) VALUES (4, '12000004');
+INSERT INTO User_cards (user_id, card_id) VALUES (1, '15000005');
+INSERT INTO User_cards (user_id, card_id) VALUES (2, '18000006');
+INSERT INTO User_cards (user_id, card_id) VALUES (3, '20000007');
+INSERT INTO User_cards (user_id, card_id) VALUES (4, '22000008');
+INSERT INTO User_cards (user_id, card_id) VALUES (1, '25000009');
+INSERT INTO User_cards (user_id, card_id) VALUES (2, '27000010');
+INSERT INTO User_cards (user_id, card_id) VALUES (3, '29000011');
+INSERT INTO User_cards (user_id, card_id) VALUES (4, '30000012');
+INSERT INTO User_cards (user_id, card_id) VALUES (1, '31000013');
+INSERT INTO User_cards (user_id, card_id) VALUES (2, '32000014');
+INSERT INTO User_cards (user_id, card_id) VALUES (3, '33000015');
 
 select * from User_cards;
 
@@ -339,3 +342,28 @@ INSERT INTO Card_access (card_id, area_id, access_date, access_data) VALUES ('22
 select * from Card_access;
 
 --DELETE FROM Card_access;
+
+
+-- **************************************************************************************************
+--INSERTS EN Card_access
+
+INSERT INTO Areas_time (area_id, hora_entrada, hora_salida) VALUES (1, '09:00:00', '17:00:00');
+INSERT INTO Areas_time (area_id, hora_entrada, hora_salida) VALUES (2, '08:00:00', '16:00:00');
+INSERT INTO Areas_time (area_id, hora_entrada, hora_salida) VALUES (3, '07:00:00', '15:00:00');
+INSERT INTO Areas_time (area_id, hora_entrada, hora_salida) VALUES (4, '10:00:00', '18:00:00');
+INSERT INTO Areas_time (area_id, hora_entrada, hora_salida) VALUES (5, '11:00:00', '19:00:00');
+INSERT INTO Areas_time (area_id, hora_entrada, hora_salida) VALUES (6, '12:00:00', '20:00:00');
+INSERT INTO Areas_time (area_id, hora_entrada, hora_salida) VALUES (7, '13:00:00', '21:00:00');
+INSERT INTO Areas_time (area_id, hora_entrada, hora_salida) VALUES (8, '14:00:00', '22:00:00');
+INSERT INTO Areas_time (area_id, hora_entrada, hora_salida) VALUES (9, '15:00:00', '23:00:00');
+INSERT INTO Areas_time (area_id, hora_entrada, hora_salida) VALUES (10, '16:00:00', '00:00:00');
+INSERT INTO Areas_time (area_id, hora_entrada, hora_salida) VALUES (11, '17:00:00', '01:00:00');
+INSERT INTO Areas_time (area_id, hora_entrada, hora_salida) VALUES (12, '18:00:00', '02:00:00');
+INSERT INTO Areas_time (area_id, hora_entrada, hora_salida) VALUES (13, '19:00:00', '03:00:00');
+INSERT INTO Areas_time (area_id, hora_entrada, hora_salida) VALUES (14, '20:00:00', '04:00:00');
+INSERT INTO Areas_time (area_id, hora_entrada, hora_salida) VALUES (15, '21:00:00', '05:00:00');
+
+select * from Areas_time;
+
+--DELETE FROM Areas_time;
+
