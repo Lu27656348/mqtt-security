@@ -130,17 +130,15 @@ client.on('message', function (topic, message) {
     'Content-Type': 'application/json',
     'Custom-Header': 'Custom-Value'
   };
-  let escucha = topic+'/escucha';
-  client.publish(escucha, JSON.stringify(data));
 
-  // Enviar una petición POST al Aplication Server para validar permisos y retornar respuesta al broker
-  // axios.post('http://localhost:3030/auth/validation-permission', data, { headers: headers })
-  //   .then(function (response) {
-  //     client.publish(`${topic}/escucha`, JSON.stringify(response.data));
-  //   })
-  //   .catch(function (error) {
-  //     console.error('Error al intentar enviar datos para validar permisos:');
-  //   });
+  //Enviar una petición POST al Aplication Server para validar permisos y retornar respuesta al broker
+  axios.post('http://localhost:3030/auth/validation-permission', data, { headers: headers })
+    .then(function (response) {
+      client.publish(`${topic}/escucha`, JSON.stringify(response.data));
+    })
+    .catch(function (error) {
+      console.error('Error al intentar enviar datos para validar permisos:');
+    });
 });
 
 app.listen(process.env.PORT || 3031, function () {
