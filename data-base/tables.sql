@@ -96,3 +96,11 @@ CREATE TABLE Areas_tree (
 	FOREIGN KEY (area_id1) REFERENCES Areas (area_id),
 	FOREIGN KEY (area_id2) REFERENCES Areas (area_id)
 );
+
+CREATE TABLE Areas_time (
+	area_id INT,
+	hora_entrada TIME,
+	hora_salida TIME,
+	PRIMARY KEY (area_id, hora_entrada, hora_salida),
+	FOREIGN KEY (area_id) REFERENCES Areas (area_id)	
+);
