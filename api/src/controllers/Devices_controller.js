@@ -23,26 +23,26 @@ export const authDevices = async (req,res) => {
 }
 
 export const createDevices = async (req,res) => {
-    const { topic_res,topic_req,type, area_id} = req.body;
+    const { topic_res,type, area_id} = req.body;
     const device = await Devices.create({
         topic_res: topic_res,
-        topic_req: topic_req,
+        topic_req: topic_res+'/escucha',
         type: type,
         area_id: area_id
     },{
-        fields: ["topic_res","topic_req","type", "area_id"]
+        fields: ["topic_res","type", "area_id"]
     });
     res.json(device);
 };
 export const updateDevices = async (req,res) => {
-    const {device_id, topic_res,topic_req,type, area_id} = req.body;
+    const {device_id, topic_res,type, area_id} = req.body;
     const device = await Devices.findOne({
         where: {
             device_id: device_id
         }
     });
     device.topic_res = topic_res;
-    device.topic_req = topic_req;
+    device.topic_req= topic_res+'/escucha';
     device.type = type;
     device.area_id = area_id;
 

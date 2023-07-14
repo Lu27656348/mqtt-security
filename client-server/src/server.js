@@ -95,24 +95,24 @@ client.on('message', function (topic, message) {
   const data = JSON.parse(message.toString());
 
   // Configurar los encabezados de la solicitud
+  // let pub={
+  //   id_device : '',
+  //   id_tarjeta: '',
+  //   token,
+  // }
   const headers = {
-    'Authorization': `Bearer ${token}`,
+    'Authorization': `Bearer ${data.token}`,
     'Accept': 'application/json',
     'Content-Type': 'application/json',
     'Custom-Header': 'Custom-Value'
   };
 
   // Enviar una petición POST al Aplication Server para validar permisos y retornar respuesta al broker
-  axios.post('http://localhost:3000/auth/validation-permission', data, { headers: headers })
+  axios.post('http://localhost:3030/auth/validation-permission', data, { headers: headers })
     .then(function (response) {
       // Comprobar si el campo "status" de la respuesta es "success"
-      if (response.data.status === 'success') {
-        // Si el campo "status" es "success", publicar la respuesta en el broker MQTT
-        client.publish(`${topic}/escucha`, JSON.stringify(response.data));
-      } else {
-        // Si el campo "status" no es "success", no publicar la respuesta
-        console.log('El mensaje recibido no es proveniente de un lector valido');
-      }
+      client.publish(`${topic}/escucha`, JSON.stringify(response.data));
+      
     })
     .catch(function (error) {
       console.error('Error al intentar enviar datos para validar permisos:');
