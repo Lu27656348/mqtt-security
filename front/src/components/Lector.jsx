@@ -34,8 +34,15 @@ function Lector({device_id,status,topic_req,getLectores}) {
             }
           }
     }
+
     useEffect(() => {
         conectarse();
+        return () => {
+            if (client) {
+                client.end();
+              setMqttClient(null);
+            }
+          };
     }, []);
 
     client.on('message', function (topic, message) {
@@ -46,7 +53,7 @@ function Lector({device_id,status,topic_req,getLectores}) {
                 setImagen(accept);
             else
                 setImagen(cancel);
-            client.unsubscribe(topic_req+'/escucha');
+            
         }else{
             setImagen(denegado);
         }

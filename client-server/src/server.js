@@ -5,7 +5,7 @@ const axios = require ('axios');
 
 app.use(express.json());
 
-const client  = mqtt.connect('tcp://localhost:1883');
+const client  = mqtt.connect('wss://broker.emqx.io:8084/mqtt');
 let token = '';
 const credenciales = {
   usuario: 'Oliver',
