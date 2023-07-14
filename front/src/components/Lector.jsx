@@ -61,16 +61,15 @@ function Lector({device_id,status,topic_req,getLectores}) {
         if(!isChecked)
             setImagen(desconectado);
         else
-            setImagen(conectado);
-        
-
+            setImagen(conectado);  
     }
 
     function publicar(){
         if(estatus==='ON'){
             let data={
                 lector_id:device_id,
-                tarjeta_id:"tarjeta",  
+                tarjeta_id:"tarjeta", 
+                status:'OK' 
             };   
             if (client && client.subscriptions && client.subscriptions[topic_req]) {
                 console.log('El cliente MQTT está suscrito al canal "mytopic"');
@@ -87,7 +86,6 @@ function Lector({device_id,status,topic_req,getLectores}) {
         }else{
             enqueueSnackbar("No se puede publicar con el lector desconectado", { variant: "error" });
         }
-        // client.unsubscribe(topic_req+'/escucha');
     }
 
     return (
