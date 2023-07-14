@@ -1,4 +1,19 @@
 -- **************************************************************************************************
+-- ELIMINACIONES DE TABLAS
+DROP TABLE IF EXISTS Areas_time;
+DROP TABLE IF EXISTS Areas_tree;
+DROP TABLE IF EXISTS Card_access;
+DROP TABLE IF EXISTS Roles_access_points;
+DROP TABLE IF EXISTS Card_access_points;
+DROP TABLE IF EXISTS User_cards;
+DROP TABLE IF EXISTS User_types;
+DROP TABLE IF EXISTS Devices;
+DROP TABLE IF EXISTS Areas;
+DROP TABLE IF EXISTS Users;
+DROP TABLE IF EXISTS Cards;
+DROP TABLE IF EXISTS Roles;
+
+-- **************************************************************************************************
 -- CREACIONES DE TABLAS
 
 CREATE TABLE Roles (
