@@ -122,3 +122,17 @@ export const findDevices = async (req,res) => {
     }
 
 }
+
+export const changeStatus = async (req,res) => {
+    const id = req.params.id;
+    try {
+        const device = await Devices.findByPk(id);
+
+        device.status = (device.status == "OFF") ? "ON" : "OFF";
+        const actualizar = await device.save();
+        return res.json(device);
+     } catch (error) {
+        return res.status(404).json("Area no encontrada");
+    }
+
+}

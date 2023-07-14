@@ -9,5 +9,6 @@ routerDevices.post('/auth/devices/', createDevices);
 routerDevices.put('/auth/devices/:id', updateDevices);
 routerDevices.delete('/auth/devices/:id', deleteDevices);
 routerDevices.get('/auth/devices/:id', findDevices);
+routerDevices.put('/auth/devices/change/:id', changeStatus);
 
 export default routerDevices;
