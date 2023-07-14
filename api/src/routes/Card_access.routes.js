@@ -4,10 +4,10 @@ import verify  from '../../middleware/verify.js';
 
 const routerCardAccess = Router();
 
-routerAreas.get('/auth/cardaccess',verify, getAllCardAccess);
-routerAreas.post('/auth/cardaccess',verify, createCardAccess);
-routerAreas.put('/auth/cardaccess/update',verify, updateCardAccess);
-routerAreas.delete('/auth/cardaccess/delete',verify, deleteCardAccess);
-routerAreas.get('/auth/cardaccess/find',verify, findCardAccess);
+routerCardAccess.get('/auth/cardaccess',verify, getAllCardAccess);
+routerCardAccess.post('/auth/cardaccess',verify, createCardAccess);
+routerCardAccess.put('/auth/cardaccess/update',verify, updateCardAccess);
+routerCardAccess.delete('/auth/cardaccess/delete',verify, deleteCardAccess);
+routerCardAccess.get('/auth/cardaccess/find',verify, findCardAccess);
 
-export default routerAreas;
+export default routerCardAccess;

@@ -16,6 +16,12 @@ import routerRol from './routes/Rol.routes.js';
 import routerCard from './routes/card.routes.js'
 import routerTree from './routes/Areas_tree.routes.js'
 
+import routerUserTypes from './routes/User_types.routes.js';
+import routerUserCards from './routes/User_cards.routes.js';
+import routerRolAccessPoint from './routes/Roles_access_points.routes.js';
+import routerCardAccess from './routes/Card_access.routes.js';
+import routerCardAccessPoints from './routes/Card_access_points.routes.js';
+
 
 app.use(cors());
 app.use(express.urlencoded({extended: false}));

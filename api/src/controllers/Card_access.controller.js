@@ -1,4 +1,4 @@
-import Card_access from '../models/Card_access';
+import Card_access from '../models/Card_access.js';
 import sequelize from '../database/database_connect.js';
 import { QueryTypes } from 'sequelize';
 

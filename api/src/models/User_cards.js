@@ -2,7 +2,7 @@ import sequelize  from '../database/database_connect.js';
 import { DataTypes } from "sequelize"
 
 const User_cards = sequelize.define('User_cards',{
-    rol_id: {
+    user_id: {
         type: DataTypes.INTEGER,
         primaryKey: true
     },
