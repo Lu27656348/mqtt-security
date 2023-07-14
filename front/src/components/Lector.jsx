@@ -9,34 +9,32 @@ import { useSnackbar } from 'notistack';
 function Lector({device_id,status,topic_req,getLectores}) {
     const { enqueueSnackbar } = useSnackbar();
     const [estatus, setEstatus] = useState(status);
-    const [mqttClient, setMqttClient] = useState(null);
+    const client = mqtt.connect("wss://broker.emqx.io:8084/mqtt");
 
     useEffect(() => {
       if (status === "ON") {
         // Establecer la conexión MQTT y suscribirse al tópico
-        const client = mqtt.connect("wss://broker.emqx.io:8084/mqtt");
         client.on("connect", function () {
           console.log(`Conectado a MQTT en el dispositivo ${device_id}`);
-          client.subscribe(topic_req);
-          client.subscribe(topic_req+'/escucha');
+          if (client && client.subscriptions && client.subscriptions[topic_req]) {
+            console.log('El cliente MQTT está suscrito al canal "mytopic"');
+          } else {
+              client.subscribe(topic_req);
+          }
         });
-        setMqttClient(client);
       } else {
         // Desconectar de MQTT
-        if (mqttClient) {
-          mqttClient.end();
-          setMqttClient(null);
-        }
+        if (client) 
+          client.end();
       }
     
-    // Función de limpieza para desconectarse de MQTT al desmontar el componente
-    return () => {
-        if (mqttClient) {
-          mqttClient.end();
-          setMqttClient(null);
+    }, []);
+
+    client.on('message', function (topic, message) {
+        if(estatus==='ON'){
+            console.log(JSON.parse(message.toString()))
         }
-      };
-    }, [status]);
+    });
 
     function handleSwitchChange(event, device_id) {
         const token = localStorage.getItem("token");
@@ -57,21 +55,18 @@ function Lector({device_id,status,topic_req,getLectores}) {
             let data={
                 lector_id:device_id,
                 tarjeta_id:"tarjeta"
-            };    
-            mqttClient.publish(topic_req, JSON.stringify(data));
+            };   
+            if (client && client.subscriptions && client.subscriptions['mytopic']) {
+                console.log('El cliente MQTT está suscrito al canal "mytopic"');
+              } else {
+                  client.subscribe(topic_req+'/escucha'); 
+              }
+            client.publish(topic_req, JSON.stringify(data));
             enqueueSnackbar("Mensaje publicado ", { variant: "success" });
         }else{
             enqueueSnackbar("No se puede publicar con el lector desconectado", { variant: "error" });
         }
     }
-
-    
-    mqttClient.on('message', function (topic, message) {
-        if(estatus==='ON'){
-            console.log(JSON.parse(message.toString()))
-        }
-    });
-
 
     return (
         <>
@@ -88,6 +83,7 @@ function Lector({device_id,status,topic_req,getLectores}) {
               <div className="p-6 border-t border-blue-gray-50 px-6 py-5">
                     <div className="flex justify-between antialiased font-bold font-sans text-sm leading-normal items-center text-gray-800">    
                         <Switch
+                            key={device_id}
                             id={device_id}
                             label={estatus==='OFF' ? 'Desconectado' : 'Conectado'}
                             defaultChecked={status === "OFF" ? false : true}
