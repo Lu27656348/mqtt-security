@@ -16,31 +16,32 @@ function Lector({device_id,status,topic_req,getLectores}) {
     const client = mqtt.connect("wss://broker.emqx.io:8084/mqtt");
     const [imagen,setImagen] = useState(status==='ON' ? conectado : desconectado)
     
-    useEffect(() => {
-      if (status === "ON") {
-        // Establecer la conexión MQTT y suscribirse al tópico
-        client.on("connect", function () {
-          console.log(`Conectado a MQTT en el dispositivo ${device_id}`);
-          if (client && client.subscriptions && client.subscriptions[topic_req]) {
-            console.log('El cliente MQTT está suscrito al canal "mytopic"');
+    function conectarse(){
+        if (status === "ON") {
+            // Establecer la conexión MQTT y suscribirse al tópico
+            client.on("connect", function () {
+                if (client && client.subscriptions && client.subscriptions[topic_req]) {
+                    console.log('El cliente MQTT está suscrito al canal "mytopic"');
+                  } else {
+                      client.subscribe(topic_req + '/escucha'); 
+                      console.log(`Suscrito ${topic_req}`);
+              }
+            });
           } else {
-              client.subscribe(topic_req);
-              client.subscribe(topic_req+'/escucha'); 
-
+            // Desconectar de MQTT
+            if (client) {
+              client.end();
+            }
           }
-        });
-      } else {
-        // Desconectar de MQTT
-        if (client) 
-          client.end();
-      }
-    
+    }
+    useEffect(() => {
+        conectarse();
     }, []);
 
     client.on('message', function (topic, message) {
-        console.log("message: " + message)
         if(estatus==='ON'){
             let mensaje=JSON.parse(message.toString());
+            console.log(mensaje)
             if( mensaje.status=='OK')
                 setImagen(accept);
             else
@@ -74,15 +75,15 @@ function Lector({device_id,status,topic_req,getLectores}) {
             const token = localStorage.getItem("token");
             let data={
                 device_id: device_id,
-                card_id:"8000001", 
+                card_id:"26269828", 
                 token: token
             };   
             
             client.publish(topic_req, JSON.stringify(data), (err) => {
                 if (err) {
-                  enqueueSnackbar("No se puede publicar con el lector desconectado", { variant: "error" });
+                    enqueueSnackbar("No se puede publicar con el lector desconectado", { variant: "error" });
                 } else {
-                  enqueueSnackbar("Mensaje publicado ", { variant: "success" });
+                    enqueueSnackbar("Mensaje publicado ", { variant: "success" });
                 }
             });
         }else{
@@ -114,7 +115,9 @@ function Lector({device_id,status,topic_req,getLectores}) {
                                 }}
                                 onChange={(event) => handleSwitchChange(event, device_id)}
                             />
-                            <Button onClick={publicar}>Simular</Button>
+                            <Button onClick={()=>{
+                                publicar()
+                            }}>Simular</Button>
                         </div>
                 </div>
             </div>

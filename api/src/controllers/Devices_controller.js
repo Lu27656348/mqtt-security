@@ -196,15 +196,15 @@ export const validatePermission = async (req,res) => {
             })
 
         }else if(device && card == null){
-            return res.status(404).json({status: "denied", message: "Card not found"});
+            return res.status(200).json({status: "denied", message: "Card not found"});
         }else if (device == null && card){
             return res.status(404).json({status: "denied", message: "Device not found"});
         }else{
-            return res.status(404).json({status: "denied", message: "Send valid data"});
+            return res.status(200).json({status: "denied", message: "Send valid data"});
         }
  
      } catch (error) {
-        return res.status(404).json("Error en validacion de permisos");
+        return res.status(200).json("Error en validacion de permisos");
     }
 
 }

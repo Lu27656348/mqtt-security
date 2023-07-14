@@ -5,7 +5,7 @@ const axios = require ('axios');
 
 app.use(express.json());
 
-const client  = mqtt.connect('wss://broker.emqx.io:8084/mqtt');
+const client  = mqtt.connect('tcp://localhost:1883');
 let token = '';
 const credenciales = {
   usuario: 'Oliver',
@@ -39,6 +39,7 @@ client.on('connect', () => {
           return res.status(204).send('No se encontraron tópicos');
         topics.forEach(topic => {
           let nombre = topic.topic_req;
+          console.log(nombre);
           client.subscribe(nombre);
         }); 
       })
@@ -118,7 +119,7 @@ app.post('/mqtt/updateunsubscribe', (req, res) => {
 
 //Recibe los mensajes que vienen del broker
 client.on('message', function (topic, message) {
-  console.log('Mensaje recibido en el topic:', topic, 'mensaje: ', message.toString());
+  // console.log('Mensaje recibido en el topic:', topic, 'mensaje: ', message.toString());
   // Parsear el mensaje como JSON
   // Convertir el mensaje recibido en formato de cadena a un objeto JSON
   const data = JSON.parse(message.toString());
@@ -133,8 +134,8 @@ client.on('message', function (topic, message) {
   //Enviar una petición POST al Aplication Server para validar permisos y retornar respuesta al broker
   axios.post('http://localhost:3030/auth/validation-permission', data, { headers: headers })
     .then(function (response) {
-      console.log(response.data);
-      client.publish(`${topic}/escucha`, JSON.stringify(response.data));
+      let respuesta = response.data;
+      client.publish(`${topic}/escucha`, JSON.stringify(respuesta));
     })
     .catch(function (error) {
       console.error('Error al intentar enviar datos para validar permisos:');
