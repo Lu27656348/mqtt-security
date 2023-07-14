@@ -5,13 +5,16 @@ import axios from '@/api/axios';
 import mqtt from 'mqtt/dist/mqtt'
 import { useSnackbar } from 'notistack';
 import accept from '../images/accept.png'
-import fondo from '/img/home-decor-1.jpeg';
+import cancel from '../images/cancel.png';
+import desconectado from '../images/desconectado.png';
+import conectado from '../images/conectado.png';
 
 function Lector({device_id,status,topic_req,getLectores}) {
     const { enqueueSnackbar } = useSnackbar();
     const [estatus, setEstatus] = useState(status);
     const client = mqtt.connect("wss://broker.emqx.io:8084/mqtt");
-    const [imagen,setImagen] = useState(fondo)
+    const [imagen,setImagen] = useState(status==='ON' ? conectado : desconectado)
+    
     useEffect(() => {
       if (status === "ON") {
         // Establecer la conexión MQTT y suscribirse al tópico
@@ -33,7 +36,13 @@ function Lector({device_id,status,topic_req,getLectores}) {
 
     client.on('message', function (topic, message) {
         if(estatus==='ON'){
-            console.log(JSON.parse(message.toString()))
+            let mensaje=JSON.parse(message.toString());
+            if(mensaje.status=='OK')
+                setImagen(accept);
+            else
+                setImagen(cancel);
+
+            client.unsubscribe(topic_req+'/escucha');
         }
     });
 
@@ -50,7 +59,10 @@ function Lector({device_id,status,topic_req,getLectores}) {
         })
         setEstatus(isChecked ? "ON" : "OFF");
         if(!isChecked)
-            setImagen(fondo);
+            setImagen(desconectado);
+        else
+            setImagen(conectado);
+        
 
     }
 
@@ -58,26 +70,31 @@ function Lector({device_id,status,topic_req,getLectores}) {
         if(estatus==='ON'){
             let data={
                 lector_id:device_id,
-                tarjeta_id:"tarjeta"
+                tarjeta_id:"tarjeta",  
             };   
-            if (client && client.subscriptions && client.subscriptions['mytopic']) {
+            if (client && client.subscriptions && client.subscriptions[topic_req]) {
                 console.log('El cliente MQTT está suscrito al canal "mytopic"');
               } else {
                   client.subscribe(topic_req+'/escucha'); 
               }
-            client.publish(topic_req, JSON.stringify(data));
-            setImagen(accept);
-            enqueueSnackbar("Mensaje publicado ", { variant: "success" });
+              client.publish(topic_req, JSON.stringify(data), (err) => {
+                if (err) {
+                  enqueueSnackbar("No se puede publicar con el lector desconectado", { variant: "error" });
+                } else {
+                  enqueueSnackbar("Mensaje publicado ", { variant: "success" });
+                }
+              });
         }else{
             enqueueSnackbar("No se puede publicar con el lector desconectado", { variant: "error" });
         }
+        // client.unsubscribe(topic_req+'/escucha');
     }
 
     return (
         <>
             <div className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md">
                 <div className="relative bg-clip-border rounded-xl overflow-hidden bg-gray-500 text-white shadow-gray-500/40 shadow-lg mx-0 mt-0 mb-4 h-64 xl:h-40">
-                    <img src={imagen} alt="Modern" className="h-full w-full object-cover" />
+                    <img src={imagen} alt="Modern" className="h-full w-full " />
                 </div>
                 <div className="p-6">
                     <h6
