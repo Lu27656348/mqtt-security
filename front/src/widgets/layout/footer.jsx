@@ -9,16 +9,14 @@ export function Footer({ brandName, brandLink, routes }) {
     <footer className="py-2">
       <div className="flex w-full flex-wrap items-center justify-center gap-6 px-2 md:justify-between">
         <Typography variant="small" className="font-normal text-inherit">
-          &copy; {year}, made with{" "}
-          <HeartIcon className="-mt-0.5 inline-block h-3.5 w-3.5" /> by{" "}
+          &copy; {year}, Ultima promo {" "}
+          <HeartIcon className="-mt-0.5 inline-block h-3.5 w-3.5" /> de{" "}
           <a
-            href={brandLink}
             target="_blank"
             className="transition-colors hover:text-blue-500"
           >
-            {brandName}
           </a>{" "}
-          for a better web.
+         Sistemas Distribuidos
         </Typography>
         <ul className="flex items-center gap-4">
           {routes.map(({ name, path }) => (
