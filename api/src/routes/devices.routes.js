@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import verify  from '../../middleware/verify.js';
-import { authDevices,getAllDevices,createDevices,updateDevices,deleteDevices,findDevices } from "../controllers/Devices_controller.js"
+import { authDevices,getAllDevices,createDevices,updateDevices,deleteDevices,findDevices,changeStatus } from "../controllers/Devices_controller.js"
 
 const routerDevices = Router();
 

@@ -128,7 +128,7 @@ export const changeStatus = async (req,res) => {
     try {
         const device = await Devices.findByPk(id);
 
-        device.status = (device.status == "OFF") ? "ON" : "OFF";
+        device.status = device.status === "OFF" ? "ON" : "OFF";
         const actualizar = await device.save();
         return res.json(device);
      } catch (error) {
