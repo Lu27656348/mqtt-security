@@ -43,6 +43,7 @@ export const authClient = async (req,res) => {
                 }
             }
         );
+        console.log(buscar)
         return res.json(buscar);
      } catch (error) {
         return res.status(404).json({error: "No existe el usuario en la base de datos"});

@@ -177,17 +177,18 @@ export const validatePermission = async (req,res) => {
                     let flag = 0;
                     response.forEach( (topic) => {
                         if (topic.area_topic == device.topic_res){
-                            if(device.type == "1"){
-                                flag = 1;
-                            }
+                            flag = 1;
                         }
                     });
                     if(flag === 1){
-                        return res.status(200).json({
-                            status: "OK",
-                        })
+                        if(device.type == "1"){
+                            return res.status(200).json({
+                                status: "OK",
+                            })
+                        }
+                        
                     }
-                    return res.status(500).json({
+                    return res.status(200).json({
                         status: "denied",
                         message: "User have no permission for this area"
                     })

@@ -38,12 +38,13 @@ function Lector({device_id,status,topic_req,getLectores}) {
     }, []);
 
     client.on('message', function (topic, message) {
+        console.log("message: " + message)
         if(estatus==='ON'){
             let mensaje=JSON.parse(message.toString());
-            if(mensaje.status && mensaje.status=='OK')
+            if( mensaje.status=='OK')
                 setImagen(accept);
             else
-                setImagen(cancel);uth
+                setImagen(cancel);
             client.unsubscribe(topic_req+'/escucha');
         }else{
             setImagen(denegado);
@@ -70,10 +71,11 @@ function Lector({device_id,status,topic_req,getLectores}) {
 
     function publicar(){
         if(estatus==='ON'){
+            const token = localStorage.getItem("token");
             let data={
-                lector_id:device_id,
-                tarjeta_id:"tarjeta", 
-                status:'OK' 
+                device_id: device_id,
+                card_id:"8000001", 
+                token: token
             };   
             
             client.publish(topic_req, JSON.stringify(data), (err) => {

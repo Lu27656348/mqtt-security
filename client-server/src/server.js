@@ -8,8 +8,8 @@ app.use(express.json());
 const client  = mqtt.connect('wss://broker.emqx.io:8084/mqtt');
 let token = '';
 const credenciales = {
-  usuario: 'Nahum',
-  password: 'queclave'
+  usuario: 'Oliver',
+  password: 'admin'
 };
 const cabecera = {
   'Accept': 'application/json',
@@ -130,10 +130,10 @@ client.on('message', function (topic, message) {
     'Content-Type': 'application/json',
     'Custom-Header': 'Custom-Value'
   };
-
   //Enviar una petición POST al Aplication Server para validar permisos y retornar respuesta al broker
   axios.post('http://localhost:3030/auth/validation-permission', data, { headers: headers })
     .then(function (response) {
+      console.log(response.data);
       client.publish(`${topic}/escucha`, JSON.stringify(response.data));
     })
     .catch(function (error) {
