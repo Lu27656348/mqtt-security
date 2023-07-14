@@ -5,7 +5,7 @@ import Lector from './Lector';
 
 function Lectores() {
 
-  const [lectores, setLectores] = useState([]);
+  const [devices, setDevices] = useState([]);
   
   function getLectores() {
     const token = localStorage.getItem("token");
@@ -16,7 +16,7 @@ function Lectores() {
           "Content-Type": "application/json",
       }
     }).then((response) => {
-      setLectores(response.data);
+      setDevices(response.data);
     });
   }
   
@@ -27,7 +27,7 @@ function Lectores() {
   return (
     <>
       <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-12 md:grid-cols-3">
-        {lectores && lectores.map((lector) => (
+        {devices && devices.map((lector) => (
           <Lector key={lector.device_id} getLectores={getLectores} device_id={lector.device_id} status={lector.status} topic_req={lector.topic_req}  />       
          ))}
       </div>

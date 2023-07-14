@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
-import {Button, Switch} from "@material-tailwind/react";
+import {Button,Input, Switch} from "@material-tailwind/react";
 import axios from '@/api/axios';
 import mqtt from 'mqtt/dist/mqtt'
 import { useSnackbar } from 'notistack';
@@ -10,9 +10,12 @@ import desconectado from '../images/desconectado.png';
 import conectado from '../images/conectado.png';
 import denegado from '../images/denegado.jpg';
 
-function Lector({device_id,status,topic_req,getLectores}) {
+function Lector({device_id,status,topic_req}) {
     const { enqueueSnackbar } = useSnackbar();
     const [estatus, setEstatus] = useState(status);
+    const [card, setCard] = useState("");
+    const cardRef = useRef();
+
     const client = mqtt.connect("wss://broker.emqx.io:8084/mqtt");
     const [imagen,setImagen] = useState(status==='ON' ? conectado : desconectado)
     
@@ -82,7 +85,7 @@ function Lector({device_id,status,topic_req,getLectores}) {
             const token = localStorage.getItem("token");
             let data={
                 device_id: device_id,
-                card_id:"26269828", 
+                card_id:card, 
                 token: token
             };   
             
@@ -111,7 +114,12 @@ function Lector({device_id,status,topic_req,getLectores}) {
                     
                 </div>
                 <div className="p-6 border-t border-blue-gray-50 px-6 py-5">
-                        <div className="flex justify-between antialiased font-bold font-sans text-sm leading-normal items-center text-gray-800">    
+                <Input type="text" label="Ingrese el Nº Tarjeta" size="lg"  id="lector"
+                          ref={cardRef}
+                          onChange={e => setCard(e.target.value)}
+                          value={card}
+                          autoComplete="off"/>
+                        <div className="mt-2 flex justify-between antialiased font-bold font-sans text-sm leading-normal items-center text-gray-800">    
                             <Switch
                                 key={device_id}
                                 id={device_id}
