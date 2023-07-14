@@ -5,10 +5,8 @@ import {
   Typography,
   Avatar,
   Chip,
-  Tooltip,
-  Progress,
+
 } from "@material-tailwind/react";
-import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 import { authorsTableData, projectsTableData } from "@/data";
 
 function Historial() {
@@ -24,7 +22,7 @@ function Historial() {
           <table className="w-full min-w-[640px] table-auto">
             <thead>
               <tr>
-                {["Usuario", "Nº Tarjeta", "Estatus", "Fecha y Hora", ""].map((el) => (
+                {["Usuario", "Nº Tarjeta", "Estatus", "Fecha y Hora"].map((el) => (
                   <th
                     key={el}
                     className="border-b border-blue-gray-50 py-3 px-5 text-left"
@@ -88,15 +86,7 @@ function Historial() {
                           {date}
                         </Typography>
                       </td>
-                      <td className={className}>
-                        <Typography
-                          as="a"
-                          href="#"
-                          className="text-xs font-semibold text-blue-gray-600"
-                        >
-                          Edit
-                        </Typography>
-                      </td>
+                      
                     </tr>
                   );
                 }
