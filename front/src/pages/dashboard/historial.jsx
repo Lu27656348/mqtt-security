@@ -22,7 +22,7 @@ function Historial() {
           <table className="w-full min-w-[640px] table-auto">
             <thead>
               <tr>
-                {["Usuario", "Nº Tarjeta", "Estatus", "Fecha y Hora"].map((el) => (
+                {["Usuario", "Nº Tarjeta","Area", "Estatus", "Fecha y Hora"].map((el) => (
                   <th
                     key={el}
                     className="border-b border-blue-gray-50 py-3 px-5 text-left"
@@ -74,10 +74,16 @@ function Historial() {
                         </Typography>
                       </td>
                       <td className={className}>
+                      <Typography className="text-xs font-semibold text-blue-gray-600">
+
+                        Biblioteca/ucab
+                        </Typography>
+                      </td>
+                      <td className={className}>
                         <Chip
                           variant="gradient"
-                          color={online ? "green" : "blue-gray"}
-                          value={online ? "online" : "offline"}
+                          color={online ? "green" : "red"}
+                          value={online ? "PASO" : "NO PASO"}
                           className="py-0.5 px-2 text-[11px] font-medium"
                         />
                       </td>
