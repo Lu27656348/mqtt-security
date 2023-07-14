@@ -32,13 +32,13 @@ client.on('connect', () => {
         'Custom-Header': 'Custom-Value'
       };
     
-      axios.get('http://localhost:3030/auth/topics', {headers: headers})
+      axios.get('http://localhost:3030/auth/devices', {headers: headers})
       .then(function (response) {
         const topics = response.data; 
         if(topics.length == 0)
           return res.status(204).send('No se encontraron tópicos');
         topics.forEach(topic => {
-          let nombre = topic.nombre;
+          let nombre = topic.topic_res;
           client.subscribe(nombre);
         }); 
       })

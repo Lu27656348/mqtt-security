@@ -22,22 +22,12 @@ const Devices = sequelize.define('devices',{
         type: DataTypes.STRING,
         allowNull: false
     },
-    token: {
-        type: DataTypes.STRING,
-        allowNull: true
-    },
+   
     area_id: {
         type: DataTypes.INTEGER,
         allowNull: true
     },
-    name: {
-        type: DataTypes.STRING,
-        allowNull: true
-    },
-    password: {
-        type: DataTypes.STRING,
-        allowNull: true
-    },
+  
 
 },{
     timestamps: false

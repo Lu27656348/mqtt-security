@@ -1,6 +1,7 @@
 import Devices from '../models/Devices.js';
 import sequelize from '../database/database_connect.js';
 import { QueryTypes } from 'sequelize';
+import fetch from "node-fetch";
 
 export const getAllDevices = async (req,res) => {
     const search = await Devices.findAll();
@@ -23,6 +24,8 @@ export const authDevices = async (req,res) => {
 }
 
 export const createDevices = async (req,res) => {
+    //consultar si existe topic_res en device
+    console.log('entra')
     const { topic_res,type, area_id} = req.body;
     const device = await Devices.create({
         topic_res: topic_res,
@@ -30,10 +33,32 @@ export const createDevices = async (req,res) => {
         type: type,
         area_id: area_id
     },{
-        fields: ["topic_res","type", "area_id"]
+        fields: ["topic_res", "topic_req","type","area_id"]
     });
-    res.json(device);
+    if(device){
+        fetch("http://localhost:3031/mqtt/subscribe", {
+            method: 'POST',
+            body: JSON.stringify({
+              topic: device.topic_res,
+            }),
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
+          .then(response => {
+            if (response.status === 200) {
+              console.log('se registro');
+            } else {
+              console.log('no se registro');
+            }
+          })
+          res.json(device);
+    }else{
+        res.json( {error: "El topico ya existe en la bdd" });
+    }
 };
+
+
 export const updateDevices = async (req,res) => {
     const {device_id, topic_res,type, area_id} = req.body;
     const device = await Devices.findOne({
