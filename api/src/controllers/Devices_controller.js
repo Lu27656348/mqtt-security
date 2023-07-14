@@ -82,7 +82,13 @@ export const updateDevices = async (req,res) => {
 
 export const deleteDevices = async (req,res) => {
     const id = req.params.id;
-    let device = "consulta";
+    let device = await Devices.findOne({
+        where: {
+            device_id: id
+        }
+    });
+
+    
     if(device){
         fetch("http://localhost:3031/mqtt/unsubscribe", {
             method: 'POST',
