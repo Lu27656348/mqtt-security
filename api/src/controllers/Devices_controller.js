@@ -1,4 +1,5 @@
 import Devices from '../models/Devices.js';
+import Card from '../models/Card.js'
 import sequelize from '../database/database_connect.js';
 import { QueryTypes } from 'sequelize';
 import fetch from "node-fetch";
@@ -133,6 +134,49 @@ export const changeStatus = async (req,res) => {
         return res.json(device);
      } catch (error) {
         return res.status(404).json("Area no encontrada");
+    }
+
+}
+
+export const validatePermission = async (req,res) => {
+    const { card_id, device_id } = req.body;
+    try {
+        console.log(card_id);
+        const device = await Devices.findByPk(device_id);
+        const card = await Card.findByPk(card_id);
+        console.log("Existe");
+        if(device && card){
+            //Primero extraemos todos los permisos asociados a la carta
+            sequelize.query(`
+            SELECT Ar.area_topic
+            FROM Areas AS Ar, Cards AS Ca, Card_access_points AS CAP
+            WHERE Ca.card_id = :card_id
+            AND Ar.area_id = CAP.area_id;
+            `, {
+                replacements: {
+                    card_id: card_id
+                },
+                type: sequelize.QueryTypes.SELECT
+            })
+            .then( response => {
+                console.log("response")
+                console.log(response)
+                if(response){
+                    //Comparamos todos los permisos con el topico principal del device y si coincide con alguno, es un usuario autorizado
+                    
+                }
+            })
+
+        }else if(device && card == null){
+            return res.status(404).json({status: "denied", message: "Card not found"});
+        }else if (device == null && card){
+            return res.status(404).json({status: "denied", message: "Device not found"});
+        }else{
+            return res.status(404).json({status: "denied", message: "Send valid data"});
+        }
+ 
+     } catch (error) {
+        return res.status(404).json("Error en validacion de permisos");
     }
 
 }

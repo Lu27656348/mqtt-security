@@ -1,5 +1,37 @@
+DROP TABLE IF EXISTS roles_access_points;
+DROP TABLE IF EXISTS card_access_points;
+DROP TABLE IF EXISTS areas_time;
+DROP TABLE IF EXISTS user_cards;
+DROP TABLE IF EXISTS user_types;
+
+DROP TABLE IF EXISTS card_access;
+DROP TABLE IF EXISTS areas_tree;
+
+DROP TABLE IF EXISTS devices;
+DROP TABLE IF EXISTS areas;
+DROP TABLE IF EXISTS cards;
+DROP TABLE IF EXISTS client;
+DROP TABLE IF EXISTS roles;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS client;
+-- **************************************************************************************************
+-- ELIMINACIONES DE TABLAS
+DROP TABLE IF EXISTS Areas_time;
+DROP TABLE IF EXISTS Areas_tree;
+DROP TABLE IF EXISTS Card_access;
+DROP TABLE IF EXISTS Roles_access_points;
+DROP TABLE IF EXISTS Card_access_points;
+DROP TABLE IF EXISTS User_cards;
+DROP TABLE IF EXISTS User_types;
+DROP TABLE IF EXISTS Devices;
+DROP TABLE IF EXISTS Areas;
+DROP TABLE IF EXISTS Users;
+DROP TABLE IF EXISTS Cards;
+DROP TABLE IF EXISTS Roles;
+
 -- **************************************************************************************************
 -- CREACIONES DE TABLAS
+
 
 CREATE TABLE Roles (
   rol_id SERIAL,
@@ -24,7 +56,12 @@ CREATE TABLE Users (
   status VARCHAR(12) NOT NULL,
   PRIMARY KEY (user_id)
 );
-
+CREATE TABLE Client (
+	client_id SERIAL,
+	name TEXT NOT NULL,
+	password TEXT NOT NULL,
+	PRIMARY KEY (client_id)
+);
 CREATE TABLE Areas (
 	area_id SERIAL,
 	area_topic VARCHAR(255) NOT NULL,
@@ -95,4 +132,12 @@ CREATE TABLE Areas_tree (
 	PRIMARY KEY (area_id1, area_id2),
 	FOREIGN KEY (area_id1) REFERENCES Areas (area_id),
 	FOREIGN KEY (area_id2) REFERENCES Areas (area_id)
+);
+
+CREATE TABLE Areas_time (
+	area_id INT,
+	hora_entrada TIME,
+	hora_salida TIME,
+	PRIMARY KEY (area_id, hora_entrada, hora_salida),
+	FOREIGN KEY (area_id) REFERENCES Areas (area_id)	
 );
