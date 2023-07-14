@@ -7,6 +7,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { Home, Profile, Tables, Notifications } from "@/pages/dashboard";
 import { Login } from "@/pages/auth";
+import Historial from "./pages/dashboard/historial";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -33,6 +34,12 @@ export const routes = [
         name: "Usuarios",
         path: "/profile",
         element: <Profile />,
+      },
+      {
+        icon: <TableCellsIcon {...icon} />,
+        name: "Historial",
+        path: "/historial",
+        element: <Historial />,
       },
       {
         icon: <TableCellsIcon {...icon} />,

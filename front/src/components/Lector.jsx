@@ -24,6 +24,8 @@ function Lector({device_id,status,topic_req,getLectores}) {
             console.log('El cliente MQTT está suscrito al canal "mytopic"');
           } else {
               client.subscribe(topic_req);
+              client.subscribe(topic_req+'/escucha'); 
+
           }
         });
       } else {
@@ -41,7 +43,6 @@ function Lector({device_id,status,topic_req,getLectores}) {
                 setImagen(accept);
             else
                 setImagen(cancel);
-
             client.unsubscribe(topic_req+'/escucha');
         }
     });
@@ -71,18 +72,14 @@ function Lector({device_id,status,topic_req,getLectores}) {
                 tarjeta_id:"tarjeta", 
                 status:'OK' 
             };   
-            if (client && client.subscriptions && client.subscriptions[topic_req]) {
-                console.log('El cliente MQTT está suscrito al canal "topic_req"');
-              } else {
-                  client.subscribe(topic_req+'/escucha'); 
-              }
-              client.publish(topic_req, JSON.stringify(data), (err) => {
+            
+            client.publish(topic_req, JSON.stringify(data), (err) => {
                 if (err) {
                   enqueueSnackbar("No se puede publicar con el lector desconectado", { variant: "error" });
                 } else {
                   enqueueSnackbar("Mensaje publicado ", { variant: "success" });
                 }
-              });
+            });
         }else{
             enqueueSnackbar("No se puede publicar con el lector desconectado", { variant: "error" });
         }
