@@ -59,12 +59,24 @@ export const updateDevices = async (req,res) => {
             device_id: device_id
         }
     });
+    if(device){
+        fetch("http://localhost:3031/mqtt/updatesubscribe", {
+            method: 'POST',
+            body: JSON.stringify({
+              viejo: device.topic_res,
+              nuevo: topic_res,
+            }),
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
+    }
     device.topic_res = topic_res;
     device.topic_req= topic_res+'/escucha';
     device.type = type;
     device.area_id = area_id;
-
     const actualizar = await device.save();
+
     res.json( { mensaje: "Device actualizado correctamente"});
 };
 
