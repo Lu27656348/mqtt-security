@@ -1,4 +1,4 @@
 # dependencies
 /node_modules
 
-/src/database
+/src/database/*
