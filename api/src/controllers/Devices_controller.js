@@ -45,13 +45,6 @@ export const createDevices = async (req,res) => {
               'Content-Type': 'application/json'
             }
           })
-          .then(response => {
-            if (response.status === 200) {
-              console.log('se registro');
-            } else {
-              console.log('no se registro');
-            }
-          })
           res.json(device);
     }else{
         res.json( {error: "El topico ya existe en la bdd" });
@@ -77,6 +70,18 @@ export const updateDevices = async (req,res) => {
 
 export const deleteDevices = async (req,res) => {
     const id = req.params.id;
+    let device = "consulta";
+    if(device){
+        fetch("http://localhost:3031/mqtt/unsubscribe", {
+            method: 'POST',
+            body: JSON.stringify({
+              topic: device.topic_res,
+            }),
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
+    }
     try {
         const eliminar = await Devices.destroy({
             where: {
