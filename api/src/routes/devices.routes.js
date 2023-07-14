@@ -4,8 +4,6 @@ import { authDevices,getAllDevices,createDevices,updateDevices,deleteDevices,fin
 
 const routerDevices = Router();
 
-routerDevices.post('/authenticate', authDevices);
-
 routerDevices.get('/auth/devices', getAllDevices);
 routerDevices.post('/auth/devices/', createDevices);
 routerDevices.put('/auth/devices/:id', updateDevices);

@@ -21,13 +21,14 @@ import routerUserCards from './routes/User_cards.routes.js';
 import routerRolAccessPoint from './routes/Roles_access_points.routes.js';
 import routerCardAccess from './routes/Card_access.routes.js';
 import routerCardAccessPoints from './routes/Card_access_points.routes.js';
+import routerClient from './routes/Client.routes.js'
 
 
 app.use(cors());
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 
-
+app.use(routerClient);
 app.use(routerAreas);
 app.use(routerDevices);
 app.use(routerUser);
