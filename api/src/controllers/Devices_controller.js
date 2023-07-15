@@ -25,31 +25,41 @@ export const authDevices = async (req,res) => {
 }
 
 export const createDevices = async (req,res) => {
-    //consultar si existe topic_res en device
-    console.log('entra')
-    const { topic_res,type, area_id} = req.body;
-    const device = await Devices.create({
-        topic_res: topic_res,
-        topic_req: topic_res+'/escucha',
-        type: type,
-        area_id: area_id
-    },{
-        fields: ["topic_res", "topic_req","type","area_id"]
-    });
-    if(device){
+    const { device_id, type, area_id } = req.body;
+    try {
+        const device_topic = await sequelize.query("SELECT obtener_topicos_area(:area_id)",{
+            replacements: {
+                area_id: area_id
+            },
+            type: sequelize.QueryTypes.SELECT
+        });
+
+        const device = await Devices.create({
+            device_id: device_id,
+            topic_res: device_topic[0].obtener_topicos_area.toString(),
+            topic_req: device_topic[0].obtener_topicos_area.toString() +'/escucha',
+            type: type,
+            area_id: area_id
+        },{
+            fields: ["device_id","topic_res", "topic_req","type","area_id"]
+        });
+
         fetch("http://localhost:3031/mqtt/subscribe", {
-            method: 'POST',
-            body: JSON.stringify({
-              topic: device.topic_res,
-            }),
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          })
-          res.json(device);
-    }else{
-        res.json( {error: "El topico ya existe en la bdd" });
+                method: 'POST',
+                body: JSON.stringify({
+                  topic: device.topic_res,
+                }),
+                headers: {
+                  'Content-Type': 'application/json'
+                }
+        });
+
+        res.status(200).json(device);
+
+    } catch (error) {
+        res.status(404).json({message: "Error durante la creación de dispositivo", error: error})
     }
+    
 };
 
 

@@ -71,14 +71,11 @@ CREATE TABLE Areas (
 );
 
 CREATE TABLE Devices (
-  device_id SERIAL,
-  name VARCHAR(255) NOT NULL,
-  password VARCHAR(255) NOT NULL,
-  topic_res VARCHAR(255) NOT NULL,
-  topic_req VARCHAR(255) NOT NULL,
-  type VARCHAR(255) NOT NULL,
-  status VARCHAR(255) DEFAULT 'OFF' NOT NULL,
-  token VARCHAR(255),
+  device_id INTEGER,
+  topic_res TEXT NOT NULL,
+  topic_req TEXT NOT NULL,
+  type TEXT NOT NULL,
+  status TEXT DEFAULT 'OFF' NOT NULL,
   area_id INT,
   PRIMARY KEY (device_id),
   FOREIGN KEY (area_id) REFERENCES Areas (area_id)
@@ -142,4 +139,9 @@ CREATE TABLE Areas_time (
 	FOREIGN KEY (area_id) REFERENCES Areas (area_id)	
 );
 
+INSERT INTO Client(name, password) VALUES ('Luis','admin');
 
+INSERT INTO Areas(area_topic, level, description) VALUES ('Ucab',0,'Campus universitario');
+INSERT INTO Areas(area_topic, level, description) VALUES ('Biblioteca',1,'Biblioteca de UCAB Guayana');
+
+INSERT INTO Areas_tree(area_id1, area_id2) VALUES (1,2);

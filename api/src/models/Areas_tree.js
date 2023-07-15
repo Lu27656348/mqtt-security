@@ -1,7 +1,7 @@
 import sequelize  from '../database/database_connect.js';
 import { DataTypes } from "sequelize"
 
-const Areas_tree = sequelize.define('Areas_tree',{
+const Areas_tree = sequelize.define('areas_tree',{
     area_id1: {
         type: DataTypes.INTEGER,
         primaryKey: true
