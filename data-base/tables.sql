@@ -1,5 +1,115 @@
+CREATE OR REPLACE FUNCTION concatenar_topicos(topic_anterior TEXT,topic_posterior TEXT)
+RETURNS TEXT AS 
+$$
+DECLARE
+	resultado text;
+BEGIN
+	resultado := topic_anterior || '/' || topic_posterior;
+	RETURN resultado;
+END;
+$$
+LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION obtener_area_anterior(area_id_ INTEGER)
+RETURNS INTEGER AS 
+$$
+DECLARE
+	area_anterior integer;
+BEGIN
+	SELECT AT.area_id1 INTO area_anterior
+	FROM Areas_tree AS AT
+	WHERE  AT.area_id2 = area_id_;
+	
+	RETURN area_anterior;
+END;
+$$
+LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION obtener_area_posterior(area_id_ INTEGER)
+RETURNS INTEGER AS 
+$$
+DECLARE
+	area_posterior integer;
+BEGIN
+	SELECT AT.area_id2 INTO area_posterior
+	FROM Areas_tree AS AT
+	WHERE  AT.area_id1 = area_id_;
+	
+	RETURN area_posterior;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION obtener_todos_topicos()
+RETURNS TABLE (topico TEXT) AS 
+$$
+DECLARE
+	topic text := '';
+	area_level_var integer;
+	area_level_aux integer;
+	area_id_var integer;
+	registro record;
+BEGIN
+
+	DROP TABLE IF EXISTS temp_table;
+	
+	CREATE TEMP TABLE temp_table (
+		topicos TEXT
+	);
+	area_level_var := 0; 
+	
+	WHILE (SELECT COUNT(*) FROM obtener_areas_por_nivel(area_level_var)) > 0 LOOP
+	FOR registro IN SELECT obtener_areas_por_nivel(area_level_var) LOOP
+		IF registro IS NULL THEN
+			RETURN QUERY SELECT 'No hay registros';
+		END IF;
+		IF EXISTS (SELECT 1 FROM Areas_tree WHERE Areas_tree.area_id1 = registro.obtener_areas_por_nivel OR Areas_tree.area_id2 = registro.obtener_areas_por_nivel) THEN
+			topic := obtener_topicos_area(registro.obtener_areas_por_nivel);
+			INSERT INTO temp_table (topicos) VALUES (topic);
+		END IF;
+
+	END LOOP;
+	area_level_var := area_level_var + 1;
+	END LOOP;		
+		
+	RETURN QUERY SELECT * FROM temp_table;
+
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION obtener_topicos_area(area_id_ INTEGER)
+RETURNS TEXT AS 
+$$
+DECLARE
+	topic text := '';
+	area_level integer;
+	busqueda integer;
+BEGIN
+	SELECT Ar.level INTO area_level 
+	FROM Areas AS Ar
+	WHERE area_id = area_id_;
+	
+	busqueda := area_id_;
+	IF area_level = 0 THEN 
+		RETURN obtener_topico(area_id_);
+	END IF;
+	IF area_level > 0 THEN
+		 WHILE verificar_area_anterior(busqueda) <> -1 LOOP
+		 	IF topic = '' THEN
+        		topic := concatenar_topicos(obtener_topico(obtener_area_anterior(busqueda)),obtener_topico(busqueda));
+			ELSE 
+				topic := concatenar_topicos(obtener_topico(obtener_area_anterior(busqueda)),topic);
+			END IF;
+			busqueda := obtener_area_anterior(busqueda);
+    	END LOOP;
+	ELSE
+	
+	END IF;
+	RETURN topic;
+END;
+$$
+LANGUAGE plpgsql;
 
 DROP TABLE IF EXISTS roles_access_points;
 DROP TABLE IF EXISTS card_access_points;
@@ -171,3 +281,7 @@ INSERT INTO Roles_access_points(rol_id,area_id) VALUES (1,1);
 INSERT INTO Cards(card_id,status) VALUES ('8000001', 'ACTIVE');
 
 INSERT INTO Card_access_points(card_id,area_id) VALUES ('8000001',2);
+
+INSERT INTO User_cards(user_id,card_id) VALUES ('1', '8000001');
+
+
