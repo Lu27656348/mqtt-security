@@ -133,10 +133,10 @@ CREATE TABLE Areas_tree (
 
 CREATE TABLE Areas_time (
 	area_id INT,
-	day_name TEXT,
+	day_value INT,
 	entry_time TIME,
 	exit_time TIME,
-	PRIMARY KEY (area_id, day_name, entry_time, exit_time),
+	PRIMARY KEY (area_id, day_value, entry_time, exit_time),
 	FOREIGN KEY (area_id) REFERENCES Areas (area_id)	
 );
 
@@ -145,5 +145,9 @@ INSERT INTO Client(name, password) VALUES ('Luis','admin');
 INSERT INTO Areas(area_topic, level, description) VALUES ('Ucab',0,'Campus universitario');
 INSERT INTO Areas(area_topic, level, description) VALUES ('Biblioteca',1,'Biblioteca de UCAB Guayana');
 
+INSERT INTO Areas_time(area_id,day_value,entry_time,exit_time) VALUES (1,1, '07:00:00', '22:00:00');
+
 INSERT INTO Areas_tree(area_id1, area_id2) VALUES (1,2);
+
+
 
