@@ -1,3 +1,6 @@
+
+
+
 DROP TABLE IF EXISTS roles_access_points;
 DROP TABLE IF EXISTS card_access_points;
 DROP TABLE IF EXISTS areas_time;
@@ -48,7 +51,6 @@ CREATE TABLE Cards (
 
 CREATE TABLE Users (
   user_id SERIAL,
-  password VARCHAR(255) NOT NULL,
   name VARCHAR(255) NOT NULL,
   last_name VARCHAR(255) NOT NULL,
   photo BYTEA,
@@ -141,13 +143,31 @@ CREATE TABLE Areas_time (
 );
 
 INSERT INTO Client(name, password) VALUES ('Luis','admin');
+INSERT INTO Client(name, password) VALUES ('Oliver','admin');
 
 INSERT INTO Areas(area_topic, level, description) VALUES ('Ucab',0,'Campus universitario');
 INSERT INTO Areas(area_topic, level, description) VALUES ('Biblioteca',1,'Biblioteca de UCAB Guayana');
 
+INSERT INTO Areas_time(area_id,day_value,entry_time,exit_time) VALUES (1,0, '07:00:00', '22:00:00');
 INSERT INTO Areas_time(area_id,day_value,entry_time,exit_time) VALUES (1,1, '07:00:00', '22:00:00');
+INSERT INTO Areas_time(area_id,day_value,entry_time,exit_time) VALUES (1,2, '07:00:00', '22:00:00');
+INSERT INTO Areas_time(area_id,day_value,entry_time,exit_time) VALUES (1,3, '07:00:00', '22:00:00');
+INSERT INTO Areas_time(area_id,day_value,entry_time,exit_time) VALUES (1,4, '07:00:00', '22:00:00');
+INSERT INTO Areas_time(area_id,day_value,entry_time,exit_time) VALUES (1,5, '07:00:00', '22:00:00');
+INSERT INTO Areas_time(area_id,day_value,entry_time,exit_time) VALUES (1,6, '07:00:00', '22:00:00');
 
 INSERT INTO Areas_tree(area_id1, area_id2) VALUES (1,2);
 
+INSERT INTO Roles(rol_id, type) VALUES (1,'Estudiante');
 
+INSERT INTO Users(user_id,name,last_name,departament,status) VALUES ('1', 'Cesar', 'Sotillo','Ingenieria Informatica','ACTIVE');
 
+INSERT INTO User_types(rol_id,user_id) VALUES (1,'1');
+
+INSERT INTO Devices(device_id,topic_res,topic_req, type, status, area_id) VALUES (1, obtener_topicos_area(2), CONCAT(obtener_topicos_area(2),'/escucha'),'1','ON',2 );
+
+INSERT INTO Roles_access_points(rol_id,area_id) VALUES (1,1);
+
+INSERT INTO Cards(card_id,status) VALUES ('8000001', 'ACTIVE');
+
+INSERT INTO Card_access_points(card_id,area_id) VALUES ('8000001',2);
