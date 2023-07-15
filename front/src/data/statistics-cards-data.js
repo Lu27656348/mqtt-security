@@ -1,8 +1,7 @@
 import {
   BanknotesIcon,
-  UserPlusIcon,
   UserIcon,
-  ChartBarIcon,
+
 } from "@heroicons/react/24/solid";
 
 export const statisticsCardsData = [
@@ -14,7 +13,7 @@ export const statisticsCardsData = [
     footer: {
       color: "text-green-500",
       value: "+55%",
-      label: "than last week",
+      label: "lectores estan conectados",
     },
   },
   {
@@ -24,8 +23,8 @@ export const statisticsCardsData = [
     value: "2,300",
     footer: {
       color: "text-green-500",
-      value: "+3%",
-      label: "than last month",
+      value: "552",
+      label: "usuarios han pasado hoy por almenos un lector",
     },
   },
  

@@ -2,34 +2,46 @@ import React from "react";
 import {
   Typography,
 } from "@material-tailwind/react";
+import {
+  BanknotesIcon,
+  UserIcon,
+
+} from "@heroicons/react/24/solid";
 
 import { StatisticsCard } from "@/widgets/cards";
-import {
-  statisticsCardsData,
-  
-} from "@/data";
 import Lectores from "@/components/Lectores";
 
 export function Home() {
   return (
     <div className="mt-12">
       <div className="mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-2">
-        {statisticsCardsData.map(({ icon, title, footer, ...rest }) => (
           <StatisticsCard
-            key={title}
-            {...rest}
-            title={title}
-            icon={React.createElement(icon, {
+            title="Total Lectores"
+            icon={React.createElement(BanknotesIcon, {
               className: "w-6 h-6 text-white",
             })}
             footer={
               <Typography className="font-normal text-blue-gray-600">
-                <strong className={footer.color}>{footer.value}</strong>
-                &nbsp;{footer.label}
+                <strong className="text-green-500">+55%</strong>
+                &nbsp;lectores estan conectados
               </Typography>
             }
           />
-        ))}
+
+          <StatisticsCard
+            title="Usuarios Ingresados Hoy"
+            color="pink"
+            icon={React.createElement(UserIcon, {
+              className: "w-6 h-6 text-white ",
+            })}
+            footer={
+              <Typography className="font-normal text-blue-gray-600">
+                <strong className="text-green-500">552</strong>
+                &nbsp;usuarios han pasado hoy por almenos un lector
+              </Typography>
+            }
+          />
+      
       </div>
       <Lectores  />
     </div>
