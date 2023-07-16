@@ -231,3 +231,53 @@ export const validatePermission = async (req,res) => {
     }
 
 }
+
+export const countDevices = async (req,res) => {
+    try {
+        const resultado = {
+            total_lectores: 0,
+            total_usuarios: 0,
+            conectados: 0,
+            ingresados: 0
+        }
+
+        const total_lectores = sequelize.query("SELECT COUNT(*) FROM DEVICES", {
+            type: sequelize.QueryTypes.SELECT
+        }).then((response) => {
+            return response[0].count
+        });
+
+        const total_usuarios = sequelize.query("SELECT COUNT(*) FROM USERS", {
+            type: sequelize.QueryTypes.SELECT
+        }).then((response) => {
+            return response[0].count
+        });
+
+        const conectados = sequelize.query(`SELECT (COUNT(*) FILTER (WHERE status = 'ON') * 100.0 / COUNT(*)) AS conectados FROM Devices;`, {
+            type: sequelize.QueryTypes.SELECT
+        }).then((response) => {
+            return response[0].conectados
+        });
+
+        const ingresados = sequelize.query(`SELECT COUNT(*) FROM Card_access WHERE date_trunc('day', access_date) = CURRENT_DATE`, {
+            type: sequelize.QueryTypes.SELECT
+        }).then((response) => {
+            return response[0].count
+        });
+
+        Promise.all([total_lectores,total_usuarios,conectados,ingresados]).then(
+            result => {
+                resultado.total_lectores = parseInt(result[0]);
+                resultado.total_usuarios =parseInt( result[1]);
+                resultado.conectados = parseInt(result[2]);
+                resultado.ingresados = parseInt(result[3]);
+                return res.status(200).json(resultado)
+            }
+        )
+
+        
+     } catch (error) {
+        return res.status(404).json("Error al contar dispositivos");
+    }
+
+}
