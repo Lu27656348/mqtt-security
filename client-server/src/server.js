@@ -38,7 +38,7 @@ client.on('connect', () => {
         if(topics.length == 0)
           return res.status(204).send('No se encontraron tópicos');
         topics.forEach(topic => {
-          let nombre = topic.topic_req;
+          let nombre = topic.topic_res;
           console.log(nombre);
           client.subscribe(nombre);
         }); 

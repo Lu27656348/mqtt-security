@@ -10,7 +10,7 @@ import desconectado from '../images/desconectado.png';
 import conectado from '../images/conectado.png';
 import denegado from '../images/denegado.jpg';
 
-function Lector({device_id,status,topic_req}) {
+function Lector({device_id,status,topic_res}) {
     const { enqueueSnackbar } = useSnackbar();
     const [estatus, setEstatus] = useState(status);
     const [card, setCard] = useState("");
@@ -23,11 +23,11 @@ function Lector({device_id,status,topic_req}) {
         if (status === "ON") {
             // Establecer la conexión MQTT y suscribirse al tópico
             client.on("connect", function () {
-                if (client && client.subscriptions && client.subscriptions[topic_req]) {
+                if (client && client.subscriptions && client.subscriptions[topic_res]) {
                     console.log('El cliente MQTT está suscrito al canal "mytopic"');
                   } else {
-                      client.subscribe(topic_req + '/escucha'); 
-                      console.log(`Suscrito ${topic_req}`);
+                      client.subscribe(topic_res + '/escucha'); 
+                      console.log(`Suscrito ${topic_res}`);
               }
             });
           } else {
@@ -88,7 +88,7 @@ function Lector({device_id,status,topic_req}) {
                 token: token
             };   
             
-            client.publish(topic_req, JSON.stringify(data), (err) => {
+            client.publish(topic_res, JSON.stringify(data), (err) => {
                 if (err) {
                     enqueueSnackbar("No se puede publicar con el lector desconectado", { variant: "error" });
                 } else {
@@ -109,7 +109,7 @@ function Lector({device_id,status,topic_req}) {
                 <div className="p-6">
                     <h6
                         className="block antialiased tracking-normal font-sans text-base font-semibold leading-relaxed text-blue-gray-900">
-                        Area: {topic_req}
+                        Area: {topic_res}
                        <br/>
                        Nº Lector: #{device_id}
                         </h6>
