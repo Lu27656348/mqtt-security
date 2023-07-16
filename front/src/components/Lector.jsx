@@ -110,7 +110,10 @@ function Lector({device_id,status,topic_req}) {
                 <div className="p-6">
                     <h6
                         className="block antialiased tracking-normal font-sans text-base font-semibold leading-relaxed text-blue-gray-900">
-                        {topic_req}</h6>
+                        Area: {topic_req}
+                       <br/>
+                       Nº Lector: #{device_id}
+                        </h6>
                     
                 </div>
                 <div className="p-6 border-t border-blue-gray-50 px-6 py-5">
