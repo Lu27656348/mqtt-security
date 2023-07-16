@@ -313,6 +313,13 @@ INSERT INTO Areas_time(area_id,day_value,entry_time,exit_time) VALUES (1,4, '07:
 INSERT INTO Areas_time(area_id,day_value,entry_time,exit_time) VALUES (1,5, '07:00:00', '22:00:00');
 INSERT INTO Areas_time(area_id,day_value,entry_time,exit_time) VALUES (1,6, '07:00:00', '22:00:00');
 
+INSERT INTO Areas_time(area_id,day_value,entry_time,exit_time) VALUES (1,0, '07:00:00', '22:00:00');
+INSERT INTO Areas_time(area_id,day_value,entry_time,exit_time) VALUES (1,1, '07:00:00', '22:00:00');
+INSERT INTO Areas_time(area_id,day_value,entry_time,exit_time) VALUES (1,2, '07:00:00', '22:00:00');
+INSERT INTO Areas_time(area_id,day_value,entry_time,exit_time) VALUES (1,3, '07:00:00', '22:00:00');
+INSERT INTO Areas_time(area_id,day_value,entry_time,exit_time) VALUES (1,4, '07:00:00', '22:00:00');
+INSERT INTO Areas_time(area_id,day_value,entry_time,exit_time) VALUES (1,5, '07:00:00', '22:00:00');
+INSERT INTO Areas_time(area_id,day_value,entry_time,exit_time) VALUES (1,6, '07:00:00', '22:00:00');
 INSERT INTO Areas_tree(area_id1, area_id2) VALUES (1,2);
 
 INSERT INTO Roles(rol_id, type) VALUES (1,'Estudiante');
