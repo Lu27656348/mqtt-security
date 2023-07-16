@@ -20,14 +20,13 @@ const Devices = sequelize.define('devices',{
     },
     status: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        defaultValue: "OFF"
     },
-   
     area_id: {
         type: DataTypes.INTEGER,
         allowNull: true
     },
-  
 
 },{
     timestamps: false
