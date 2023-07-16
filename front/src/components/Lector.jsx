@@ -114,7 +114,7 @@ function Lector({device_id,status,topic_req}) {
                        <br/>
                        Nº Lector: #{device_id}
                         </h6>
-                    
+
                 </div>
                 <div className="p-6 border-t border-blue-gray-50 px-6 py-5">
                 <Input type="text" label="Ingrese el Nº Tarjeta" size="lg"  id="lector"
