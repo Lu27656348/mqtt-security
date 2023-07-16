@@ -201,6 +201,15 @@ export const validatePermission = async (req,res) => {
                           });
                           if(respuesta[0].obtener_topicos_area == device.topic_res ){
                             flag = 1;
+                            const entryAdd = sequelize.query("INSERT INTO CARD_ACCESS(card_id, area_id,access_date, access_data) VALUES (:card_id,:area_id,:access_date,:access_data)", {
+                                replacements: {
+                                    card_id: card.card_id,
+                                    area_id: device.area_id,
+                                    access_date: Date.now(),
+                                    access_data: 'OK'
+                                },
+                                type: sequelize.QueryTypes.SELECT
+                              });
                             return res.status(200).json({status: "OK"})
                           }
                           
@@ -209,6 +218,15 @@ export const validatePermission = async (req,res) => {
                         await Promise.all(promises);
                         
                         if(flag == 0){
+                            const entryAdd = sequelize.query("INSERT INTO CARD_ACCESS(card_id, area_id,access_date, access_data) VALUES (:card_id,:area_id,:access_date,:access_data)", {
+                                replacements: {
+                                    card_id: card.card_id,
+                                    area_id: device.area_id,
+                                    access_date: Date.now(),
+                                    access_data: 'DENIED'
+                                },
+                                type: sequelize.QueryTypes.SELECT
+                              });
                             return res.status(200).json({status: "denied", message: "El usuario no tiene permisos"})
                         }
                       }
@@ -274,8 +292,7 @@ export const countDevices = async (req,res) => {
                 return res.status(200).json(resultado)
             }
         )
-
-        
+     
      } catch (error) {
         return res.status(404).json("Error al contar dispositivos");
     }
