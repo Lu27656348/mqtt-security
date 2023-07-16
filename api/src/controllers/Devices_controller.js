@@ -25,31 +25,41 @@ export const authDevices = async (req,res) => {
 }
 
 export const createDevices = async (req,res) => {
-    //consultar si existe topic_res en device
-    console.log('entra')
-    const { topic_res,type, area_id} = req.body;
-    const device = await Devices.create({
-        topic_res: topic_res,
-        topic_req: topic_res+'/escucha',
-        type: type,
-        area_id: area_id
-    },{
-        fields: ["topic_res", "topic_req","type","area_id"]
-    });
-    if(device){
+    const { device_id, type, area_id } = req.body;
+    try {
+        const device_topic = await sequelize.query("SELECT obtener_topicos_area(:area_id)",{
+            replacements: {
+                area_id: area_id
+            },
+            type: sequelize.QueryTypes.SELECT
+        });
+
+        const device = await Devices.create({
+            device_id: device_id,
+            topic_res: device_topic[0].obtener_topicos_area.toString(),
+            topic_req: device_topic[0].obtener_topicos_area.toString() +'/escucha',
+            type: type,
+            area_id: area_id
+        },{
+            fields: ["device_id","topic_res", "topic_req","type","area_id"]
+        });
+
         fetch("http://localhost:3031/mqtt/subscribe", {
-            method: 'POST',
-            body: JSON.stringify({
-              topic: device.topic_res,
-            }),
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          })
-          res.json(device);
-    }else{
-        res.json( {error: "El topico ya existe en la bdd" });
+                method: 'POST',
+                body: JSON.stringify({
+                  topic: device.topic_res,
+                }),
+                headers: {
+                  'Content-Type': 'application/json'
+                }
+        });
+
+        res.status(200).json(device);
+
+    } catch (error) {
+        res.status(404).json({message: "Error durante la creación de dispositivo", error: error})
     }
+    
 };
 
 
@@ -143,28 +153,34 @@ export const validatePermission = async (req,res) => {
     try {
         const device = await Devices.findByPk(device_id);
         const card = await Card.findByPk(card_id);
+
+        const timeValidationQuery = ` 
+        SELECT * 
+        FROM (SELECT p_rol.area_id
+                   FROM (SELECT Ar.area_id,Ar.area_topic
+                   FROM Areas AS Ar, 
+                   Cards AS Ca,
+                   Roles AS Ro, 
+                   roles_access_points AS RAP, 
+                   User_types AS UT,
+                   User_cards AS UC
+                   WHERE Ca.card_id = :card_id
+                   AND UC.card_id = Ca.card_id
+                   AND UC.user_id = UT.user_id
+                   AND UT.rol_id = RAP.rol_id
+                   AND Ar.area_id = RAP.area_id) AS p_rol
+                   UNION 
+                   SELECT Ar.area_id
+                   FROM Areas AS Ar, Cards AS Ca, Card_access_points AS CAP
+                   WHERE Ca.card_id = :card_id
+                   AND Ar.area_id = CAP.area_id) AS permisos_tarjeta,
+                   Areas_time AS Artime
+       WHERE Artime.area_id = permisos_tarjeta.area_id
+       AND EXTRACT(DOW FROM NOW()) = Artime.day_value
+       AND CURRENT_TIMESTAMP::time BETWEEN Artime.entry_time AND Artime.exit_time`
         if(device && card){
             //Primero extraemos todos los permisos asociados a la carta
-            sequelize.query(`
-            SELECT p_rol.area_topic
-            FROM (SELECT Ar.area_id,Ar.area_topic
-            FROM Areas AS Ar, 
-            Cards AS Ca,
-            Roles AS Ro, 
-            roles_access_points AS RAP, 
-            User_types AS UT,
-	        User_cards AS UC
-            WHERE Ca.card_id = :card_id
-            AND UC.card_id = Ca.card_id
-            AND UC.user_id = UT.user_id
-            AND UT.rol_id = RAP.rol_id
-            AND Ar.area_id = RAP.area_id) AS p_rol
-            UNION 
-            SELECT Ar.area_topic
-            FROM Areas AS Ar, Cards AS Ca, Card_access_points AS CAP
-            WHERE Ca.card_id = :card_id
-            AND Ar.area_id = CAP.area_id
-            `, {
+            sequelize.query(timeValidationQuery, {
                 replacements: {
                     card_id: card_id
                 },

@@ -9,14 +9,19 @@ export const getAllAreas = async (req,res) => {
 
 export const createArea = async (req,res) => {
     const { area_topic,level,description } = req.body;
-    const topic = await Areas.create({
-        area_topic: area_topic,
-        level: level,
-        description: description
-    },{
-        fields: ["area_topic","level","description"]
-    });
-    res.json(topic);
+    try {
+        const topic = await Areas.create({
+            area_topic: area_topic,
+            level: level,
+            description: description
+        },{
+            fields: ["area_topic","level","description"]
+        });
+        res.status(200).json(topic);
+    } catch (error) {
+        res.status(500).json({message: "Error en creación de area", error: error});
+    }
+   
 };
 export const updateAreas= async (req,res) => {
     const { area_id,area_topic,level,description } = req.body;
