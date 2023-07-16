@@ -8,6 +8,7 @@ const connect = async () => {
         console.log("Servidor iniciado con exito en el puerto 3030")
     } catch (error) {
         console.error("Error al iniciar el servidor");
+        console.error(error);
     }
 }
 

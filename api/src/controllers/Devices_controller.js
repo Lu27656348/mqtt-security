@@ -147,6 +147,30 @@ export const changeStatus = async (req,res) => {
     }
 
 }
+const validateAreaTopic = async (array,device) => {
+    await Promise.all(array.map(async (topic) => {
+        sequelize.query("SELECT obtener_topicos_area(:topic)", {
+            replacements: {
+                topic: topic.area_id
+            },
+            type: sequelize.QueryTypes.SELECT
+        }).then(response => {
+            console.log("response")
+            console.log(response)
+            console.log(response[0].obtener_topicos_area == device.topic_res);
+            
+            if (response[0].obtener_topicos_area === device.topic_res){
+                if(device.type == "1"){
+                    flag = 1;
+                    return res.status(200).json({
+                        status: "OK",
+                    })
+                }
+            }
+        
+        })
+    }))
+}
 
 export const validatePermission = async (req,res) => {
     const { card_id, device_id } = req.body;
@@ -189,24 +213,32 @@ export const validatePermission = async (req,res) => {
                 
                 if(response){
                     //Comparamos todos los permisos con el topico principal del device y si coincide con alguno, es un usuario autorizado
-                    let flag = 0;
-                    response.forEach( (topic) => {
-                        if (topic.area_topic == device.topic_res){
+                    console.log(response);
+                    async function waitResponseHTTP() {
+                        let flag = 0;
+                        const promises = response.map(async topic => {
+                          let respuesta = await sequelize.query("SELECT obtener_topicos_area(:topic)", {
+                            replacements: {
+                              topic: topic.area_id
+                            },
+                            type: sequelize.QueryTypes.SELECT
+                          });
+                          if(respuesta[0].obtener_topicos_area == device.topic_res ){
                             flag = 1;
-                        }
-                    });
-                    if(flag === 1){
-                        if(device.type == "1"){
-                            return res.status(200).json({
-                                status: "OK",
-                            })
-                        }
+                            return res.status(200).json({status: "OK"})
+                          }
+                          
+                        });
+                      
+                        await Promise.all(promises);
                         
-                    }
-                    return res.status(200).json({
-                        status: "denied",
-                        message: "User have no permission for this area"
-                    })
+                        if(flag == 0){
+                            return res.status(200).json({status: "denied", message: "El usuario no tiene permisos"})
+                        }
+                      }
+                      
+                      waitResponseHTTP(device);
+       
                 }
             })
 
