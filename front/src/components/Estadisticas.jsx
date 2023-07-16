@@ -19,10 +19,10 @@ function Estadisticas() {
             "Content-Type": "application/json",
           }
       }).then((response)=>{
-        setTotalLector(response.data.total_lectores);
-        setTotalUsuario(response.data.total_usuarios);
-        setConectados(response.data.conectados);
-        setIngresados(response.data.ingresados);
+        setTotalLector( response.data.total_lectores); ///Total de lectores
+        setTotalUsuario(response.data.total_usuarios); //Total de usuarios
+        setConectados(  response.data.conectados); //Porcentaje de usuarios conectados (total lectores/ lectores con status 1 * 100)
+        setIngresados(  response.data.ingresados);  //total de usuarios ingresados en el historial en el dia actual (o las ultms 24h)
       }).catch((error)=>{
 
       })
@@ -55,7 +55,7 @@ function Estadisticas() {
                 icon={React.createElement(UserIcon, {
                 className: "w-6 h-6 text-white ",
                 })}
-                title="Usuarios Ingresados Hoy"
+                title="Total Usuarios"
                 value={totalusuario ? totalusuario : 'cargando...'}
                 footer={
                 <Typography className="font-normal text-blue-gray-600">
