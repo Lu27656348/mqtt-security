@@ -43,7 +43,6 @@ function Lector({device_id,status,topic_req}) {
         return () => {
             if (client) {
                 client.end();
-              setMqttClient(null);
             }
           };
     }, []);
