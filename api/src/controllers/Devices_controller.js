@@ -147,30 +147,6 @@ export const changeStatus = async (req,res) => {
     }
 
 }
-const validateAreaTopic = async (array,device) => {
-    await Promise.all(array.map(async (topic) => {
-        sequelize.query("SELECT obtener_topicos_area(:topic)", {
-            replacements: {
-                topic: topic.area_id
-            },
-            type: sequelize.QueryTypes.SELECT
-        }).then(response => {
-            console.log("response")
-            console.log(response)
-            console.log(response[0].obtener_topicos_area == device.topic_res);
-            
-            if (response[0].obtener_topicos_area === device.topic_res){
-                if(device.type == "1"){
-                    flag = 1;
-                    return res.status(200).json({
-                        status: "OK",
-                    })
-                }
-            }
-        
-        })
-    }))
-}
 
 export const validatePermission = async (req,res) => {
     const { card_id, device_id } = req.body;
@@ -213,7 +189,7 @@ export const validatePermission = async (req,res) => {
                 
                 if(response){
                     //Comparamos todos los permisos con el topico principal del device y si coincide con alguno, es un usuario autorizado
-                    console.log(response);
+                    console.log('obteniendo datos');
                     async function waitResponseHTTP() {
                         let flag = 0;
                         const promises = response.map(async topic => {

@@ -135,6 +135,7 @@ client.on('message', function (topic, message) {
   axios.post('http://localhost:3030/auth/validation-permission', data, { headers: headers })
     .then(function (response) {
       let respuesta = response.data;
+      console.log('publica')
       client.publish(`${topic}/escucha`, JSON.stringify(respuesta));
     })
     .catch(function (error) {
