@@ -1,0 +1,44 @@
+
+// function getToken() {
+//   let token = "";
+//   const credenciales = {
+//     usuario: "Nahum",
+//     password: "queclave",
+//   };
+//   const cabecera = {
+//     Accept: "application/json",
+//     "Content-Type": "application/json",
+//     "Custom-Header": "Custom-Value",
+//   };
+//     //obtener todos los topicos para suscribirse
+//     const headers = {
+//     Authorization: `Bearer ${token}`,
+//     Accept: "application/json",
+//     "Content-Type": "application/json",
+//     // "Custom-Header": "Custom-Value",
+//   };
+
+//   axios
+//     .post("http://localhost:3000/login", credenciales, { headers: cabecera })
+//     .then(function (response) {
+//       token = response.data.token;
+//       console.log(token);
+ 
+//     });
+
+//     axios.get('http://localhost:3000/auth/users', {headers: headers})
+//     .then(function (response) {
+//       console.log(response.data);
+//       const topics = response.data; 
+//       if(topics.length == 0)
+//         return response.status(204).send('No se encontraron tópicos');
+//       topics.forEach(topic => {
+//         let nombre = topic.name;
+//       }); 
+//     })
+//     .catch(error => {
+//       console.error('Error al obtener la lista de tópicos:', error);
+//     });
+// }
+
+// getToken();
