@@ -1,7 +1,10 @@
-const express = require('express'); 
+import express from 'express';
 const app = express();
-const mqtt = require('mqtt');
-const axios = require ('axios');
+import mqtt from 'mqtt';
+import axios from 'axios';
+import {config} from 'dotenv'
+
+config()
 
 app.use(express.json());
 
@@ -147,4 +150,5 @@ app.listen(process.env.PORT || 3031, function () {
   console.log(`Server listening on port ${process.env.PORT || 3031}`);
 });
 
+export default client;
 

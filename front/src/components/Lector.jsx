@@ -9,6 +9,7 @@ import cancel from '../images/cancel.png';
 import desconectado from '../images/desconectado.png';
 import conectado from '../images/conectado.png';
 import denegado from '../images/denegado.jpg';
+import * as client from '../../../client-server/src/server.js'
 
 function Lector({device_id,status,topic_res}) {
     const { enqueueSnackbar } = useSnackbar();
@@ -16,7 +17,11 @@ function Lector({device_id,status,topic_res}) {
     const [card, setCard] = useState("");
     const cardRef = useRef();
 
-    const client = mqtt.connect("wss://broker.emqx.io:8084/mqtt");
+    /*
+    const broker = "tcp://localhost:1883";
+   // const broker = "wss://broker.emqx.io:8084/mqtt";
+    const client = mqtt.connect(broker);
+    */
     const [imagen,setImagen] = useState(status==='ON' ? conectado : desconectado)
     
     function conectarse(){
@@ -39,6 +44,7 @@ function Lector({device_id,status,topic_res}) {
     }
 
     useEffect(() => {
+        
         conectarse();
         return () => {
             if (client) {
