@@ -2,20 +2,18 @@
 
 import {Form, Formik} from 'formik'
 import {Link} from 'react-router-dom';
-function AreasForm() {
+function CardAccessPointsForm() {
   return (
     <>
     <div className="container m-3">
-      <Link className="btn btn-secondary bg-secondary" to="/areas" >Volver</Link>
+      <Link className="btn btn-secondary bg-secondary" to="/cards" >Volver</Link>
 
 
       <div>Agregar area</div>
       <div className="row">
         <Formik
           initialValues={{
-            area_topic : '',
-            level : '',
-            description : '',
+            area_id : '',
       
           }}
           onSubmit={async (values,actions) => {
@@ -39,21 +37,12 @@ function AreasForm() {
               <div className="card">
               <Form onSubmit={handleSubmit}>
              
-                {/* Area_topic */}
+                {/* Area_id */}
                 <div className="m-3">
-                  <label htmlFor="area_topic" className="form-label">Area_topic</label>
-                  <input type="text" className="form-control"  id="area_topic" name="area_topic" onChange={handleChange} placeholder="Ingrese area"/>
+                  <label htmlFor="area_id" className="form-label">Area_id</label>
+                  <input type="text" className="form-control"  id="area_id" name="area_id" onChange={handleChange} placeholder="Ingrese area"/>
                 </div>
-                {/* Topic res */}
-                <div className="m-3">
-                  <label htmlFor="level" className="form-label">Level</label>
-                  <input type="text" className="form-control"  id="level" name="level" onChange={handleChange} placeholder="Ingrese level"/>
-                </div>
-                {/* Descripcion */}
-                <div className="m-3">
-                  <label htmlFor="description" className="form-label">Descripcion</label>
-                  <input type="text" className="form-control"  id="description" name="description" onChange={handleChange} placeholder="Ingrese Descripcion"/>
-                </div>
+
 
 
               
@@ -75,4 +64,4 @@ function AreasForm() {
   )
 }
 
-export default AreasForm
+export default CardAccessPointsForm

@@ -2,7 +2,7 @@
 
 import {Form, Formik} from 'formik'
 import {Link} from 'react-router-dom';
-function AreasForm() {
+function AreasTreeForm() {
   return (
     <>
     <div className="container m-3">
@@ -13,9 +13,8 @@ function AreasForm() {
       <div className="row">
         <Formik
           initialValues={{
-            area_topic : '',
-            level : '',
-            description : '',
+            area_id1 : '',
+            area_id2 : '',
       
           }}
           onSubmit={async (values,actions) => {
@@ -39,21 +38,17 @@ function AreasForm() {
               <div className="card">
               <Form onSubmit={handleSubmit}>
              
-                {/* Area_topic */}
+                {/* Area_id1 */}
                 <div className="m-3">
-                  <label htmlFor="area_topic" className="form-label">Area_topic</label>
-                  <input type="text" className="form-control"  id="area_topic" name="area_topic" onChange={handleChange} placeholder="Ingrese area"/>
+                  <label htmlFor="area_id1" className="form-label">area_id1</label>
+                  <input type="text" className="form-control"  id="area_id1" name="area_id1" onChange={handleChange} placeholder="Ingrese area"/>
                 </div>
-                {/* Topic res */}
+                {/* Area_id2 */}
                 <div className="m-3">
-                  <label htmlFor="level" className="form-label">Level</label>
-                  <input type="text" className="form-control"  id="level" name="level" onChange={handleChange} placeholder="Ingrese level"/>
+                  <label htmlFor="area_id2" className="form-label">area_id2</label>
+                  <input type="text" className="form-control"  id="area_id2" name="area_id2" onChange={handleChange} placeholder="Ingrese area"/>
                 </div>
-                {/* Descripcion */}
-                <div className="m-3">
-                  <label htmlFor="description" className="form-label">Descripcion</label>
-                  <input type="text" className="form-control"  id="description" name="description" onChange={handleChange} placeholder="Ingrese Descripcion"/>
-                </div>
+
 
 
               
@@ -75,4 +70,4 @@ function AreasForm() {
   )
 }
 
-export default AreasForm
+export default AreasTreeForm

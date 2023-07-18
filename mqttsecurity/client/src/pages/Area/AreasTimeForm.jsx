@@ -2,7 +2,7 @@
 
 import {Form, Formik} from 'formik'
 import {Link} from 'react-router-dom';
-function AreasForm() {
+function AreasTimeForm() {
   return (
     <>
     <div className="container m-3">
@@ -13,9 +13,10 @@ function AreasForm() {
       <div className="row">
         <Formik
           initialValues={{
-            area_topic : '',
-            level : '',
-            description : '',
+            area_id : '',
+            day_value : '',
+            entry_time : '',
+            exit_time : ''
       
           }}
           onSubmit={async (values,actions) => {
@@ -39,20 +40,25 @@ function AreasForm() {
               <div className="card">
               <Form onSubmit={handleSubmit}>
              
-                {/* Area_topic */}
+                {/* Area_id */}
                 <div className="m-3">
-                  <label htmlFor="area_topic" className="form-label">Area_topic</label>
-                  <input type="text" className="form-control"  id="area_topic" name="area_topic" onChange={handleChange} placeholder="Ingrese area"/>
+                  <label htmlFor="area_id" className="form-label">Area_id</label>
+                  <input type="text" className="form-control"  id="area_id" name="area_id" onChange={handleChange} placeholder="Ingrese area"/>
                 </div>
-                {/* Topic res */}
+                {/* day_value */}
                 <div className="m-3">
-                  <label htmlFor="level" className="form-label">Level</label>
-                  <input type="text" className="form-control"  id="level" name="level" onChange={handleChange} placeholder="Ingrese level"/>
+                  <label htmlFor="day_value" className="form-label">Day_value</label>
+                  <input type="text" className="form-control"  id="day_value" name="day_value" onChange={handleChange} placeholder="Ingrese day_value"/>
                 </div>
-                {/* Descripcion */}
+                {/* entry_time */}
                 <div className="m-3">
-                  <label htmlFor="description" className="form-label">Descripcion</label>
-                  <input type="text" className="form-control"  id="description" name="description" onChange={handleChange} placeholder="Ingrese Descripcion"/>
+                  <label htmlFor="entry_time" className="form-label">entry_time</label>
+                  <input type="text" className="form-control"  id="entry_time" name="entry_time" onChange={handleChange} placeholder="Ingrese entry_time"/>
+                </div>
+                {/* exit_time */}
+                <div className="m-3">
+                  <label htmlFor="exit_time" className="form-label">exit_time</label>
+                  <input type="text" className="form-control"  id="exit_time" name="exit_time" onChange={handleChange} placeholder="Ingrese exit_time"/>
                 </div>
 
 
@@ -75,4 +81,4 @@ function AreasForm() {
   )
 }
 
-export default AreasForm
+export default AreasTimeForm

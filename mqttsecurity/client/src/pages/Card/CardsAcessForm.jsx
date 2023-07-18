@@ -2,20 +2,20 @@
 
 import {Form, Formik} from 'formik'
 import {Link} from 'react-router-dom';
-function AreasForm() {
+function CardsAccessForm() {
   return (
     <>
     <div className="container m-3">
-      <Link className="btn btn-secondary bg-secondary" to="/areas" >Volver</Link>
+      <Link className="btn btn-secondary bg-secondary" to="/cards" >Volver</Link>
 
 
-      <div>Agregar area</div>
+      <div>Agregar Card access</div>
       <div className="row">
         <Formik
           initialValues={{
-            area_topic : '',
-            level : '',
-            description : '',
+            area_id : '',
+            access_date : '',
+            access_data : '',
       
           }}
           onSubmit={async (values,actions) => {
@@ -39,21 +39,22 @@ function AreasForm() {
               <div className="card">
               <Form onSubmit={handleSubmit}>
              
-                {/* Area_topic */}
+                {/* Area_id */}
                 <div className="m-3">
-                  <label htmlFor="area_topic" className="form-label">Area_topic</label>
-                  <input type="text" className="form-control"  id="area_topic" name="area_topic" onChange={handleChange} placeholder="Ingrese area"/>
+                  <label htmlFor="area_id" className="form-label">Area_id</label>
+                  <input type="text" className="form-control"  id="area_id" name="area_id" onChange={handleChange} placeholder="Ingrese area"/>
                 </div>
-                {/* Topic res */}
+                {/* Access_date */}
                 <div className="m-3">
-                  <label htmlFor="level" className="form-label">Level</label>
-                  <input type="text" className="form-control"  id="level" name="level" onChange={handleChange} placeholder="Ingrese level"/>
+                  <label htmlFor="access_date" className="form-label">Access_date</label>
+                  <input type="text" className="form-control"  id="access_date" name="access_date" onChange={handleChange} placeholder="Ingrese Access_date"/>
                 </div>
-                {/* Descripcion */}
+                {/* Access_data */}
                 <div className="m-3">
-                  <label htmlFor="description" className="form-label">Descripcion</label>
-                  <input type="text" className="form-control"  id="description" name="description" onChange={handleChange} placeholder="Ingrese Descripcion"/>
+                  <label htmlFor="access_data" className="form-label">Access_data</label>
+                  <input type="text" className="form-control"  id="access_data" name="access_data" onChange={handleChange} placeholder="Ingrese Access_date"/>
                 </div>
+
 
 
               
@@ -75,4 +76,4 @@ function AreasForm() {
   )
 }
 
-export default AreasForm
+export default CardsAccessForm
