@@ -1,5 +1,6 @@
 import Devices from '../models/Devices.js';
-import Card from '../models/Card.js'
+import Card from '../models/Card.js';
+import User from '../models/User.js'
 import sequelize from '../database/database_connect.js';
 import { QueryTypes } from 'sequelize';
 import fetch from "node-fetch";
@@ -216,13 +217,14 @@ export const validatePermission = async (req,res) => {
                         });
                       
                         await Promise.all(promises);
-                        
+                        const now = new Date();
+                        const timestamp = now.getTime();
+                        const formattedDate = new Date(timestamp).toISOString();
                         if(flag == 0){
-                            const entryAdd = sequelize.query("INSERT INTO CARD_ACCESS(card_id, area_id,access_date, access_data) VALUES (:card_id,:area_id,:access_date,:access_data)", {
+                            const entryAdd = sequelize.query("INSERT INTO CARD_ACCESS(card_id, area_id, access_data) VALUES (:card_id,:area_id,:access_date,:access_data)", {
                                 replacements: {
                                     card_id: card.card_id,
                                     area_id: device.area_id,
-                                    access_date: Date.now(),
                                     access_data: 'DENIED'
                                 },
                                 type: sequelize.QueryTypes.SELECT

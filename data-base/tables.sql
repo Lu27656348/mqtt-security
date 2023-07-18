@@ -260,7 +260,7 @@ CREATE TABLE Roles_access_points (
 CREATE TABLE Card_access (
     card_id VARCHAR(9),
 	area_id INT,
-	access_date TIMESTAMP NOT NULL,
+	access_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	access_data VARCHAR(255) NOT NULL,
 	PRIMARY KEY (card_id, area_id),
 	FOREIGN KEY (area_id) REFERENCES Areas (area_id),
