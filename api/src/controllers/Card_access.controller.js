@@ -8,16 +8,15 @@ export const getAllCardAccess = async (req,res) => {
 }
 
 export const createCardAccess = async (req,res) => {
-    const { card_id, area_id, access_date, access_data } = req.body;
+    const { card_id, area_id, access_data } = req.body;
     const cardaccess = await Card_access.create({
         card_id: card_id,
         area_id: area_id,
-        access_date: access_date,
         access_data: access_data
     },{
-        fields: ["card_id", "area_id","access_date","access_data"]
+        fields: ["card_id", "area_id","access_data"]
     });
-    res.json(card);
+    res.json(cardaccess);
 };
 export const updateCardAccess = async (req,res) => {
     const {  card_id, area_id, access_date, access_data} = req.body;

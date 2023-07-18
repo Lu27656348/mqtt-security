@@ -40,6 +40,21 @@ END;
 $$
 LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION obtener_topico(
+	area_id_ integer)
+    RETURNS text
+    LANGUAGE 'plpgsql'
+AS $BODY$
+DECLARE
+	resultado text;
+BEGIN
+	SELECT area_topic INTO resultado 
+	FROM Areas
+	WHERE area_id = area_id_;
+	RETURN resultado;
+END;
+$BODY$;
+
 CREATE OR REPLACE FUNCTION obtener_todos_topicos()
 RETURNS TABLE (topico TEXT) AS 
 $$

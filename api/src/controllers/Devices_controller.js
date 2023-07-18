@@ -202,11 +202,10 @@ export const validatePermission = async (req,res) => {
                           });
                           if(respuesta[0].obtener_topicos_area == device.topic_res ){
                             flag = 1;
-                            const entryAdd = sequelize.query("INSERT INTO CARD_ACCESS(card_id, area_id,access_date, access_data) VALUES (:card_id,:area_id,:access_date,:access_data)", {
+                            const entryAdd = sequelize.query("INSERT INTO CARD_ACCESS(card_id, area_id, access_data) VALUES (:card_id,:area_id,:access_data)", {
                                 replacements: {
                                     card_id: card.card_id,
                                     area_id: device.area_id,
-                                    access_date: Date.now(),
                                     access_data: 'OK'
                                 },
                                 type: sequelize.QueryTypes.SELECT
