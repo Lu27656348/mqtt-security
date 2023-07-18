@@ -165,7 +165,7 @@ export const validatePermission = async (req,res) => {
                 roles_access_points AS RAP, 
                 User_types AS UT,
                 User_cards AS UC
-                WHERE Ca.card_id = '8000001'
+                WHERE Ca.card_id = :card_id
                 AND UC.card_id = Ca.card_id
                 AND UC.user_id = UT.user_id
                 AND UT.rol_id = RAP.rol_id
@@ -173,7 +173,7 @@ export const validatePermission = async (req,res) => {
                 UNION 
             SELECT Ar.area_id, Ar.area_topic
             FROM Areas AS Ar, Cards AS Ca, Card_access_points AS CAP
-            WHERE Ca.card_id = '8000001'
+            WHERE Ca.card_id = :card_id
             AND Ar.area_id = CAP.area_id) AS permisos_tarjeta,
 			Areas_time AS Artime
             WHERE Artime.area_id = permisos_tarjeta.area_id
@@ -191,36 +191,52 @@ export const validatePermission = async (req,res) => {
                 if(response){
                     //Comparamos todos los permisos con el topico principal del device y si coincide con alguno, es un usuario autorizado
                     console.log('obteniendo datos');
-                    async function waitResponseHTTP() {
-                        let flag = 0;
-                        const promises = response.map(async topic => {
-                          let respuesta = await sequelize.query("SELECT obtener_topicos_area(:topic)", {
-                            replacements: {
-                              topic: topic.area_id
-                            },
-                            type: sequelize.QueryTypes.SELECT
-                          });
-                          if(respuesta[0].obtener_topicos_area == device.topic_res ){
-                            flag = 1;
-                            const entryAdd = sequelize.query("INSERT INTO CARD_ACCESS(card_id, area_id, access_data) VALUES (:card_id,:area_id,:access_data)", {
-                                replacements: {
-                                    card_id: card.card_id,
-                                    area_id: device.area_id,
-                                    access_data: 'OK'
-                                },
-                                type: sequelize.QueryTypes.SELECT
-                              });
-                            return res.status(200).json({status: "OK"})
-                          }
-                          
+                    console.log(response)
+                    const promises = response.map(topic => {
+                        let respuesta = sequelize.query("SELECT obtener_topicos_area(:topic)", {
+                          replacements: {
+                            topic: topic.area_id
+                          },
+                          type: sequelize.QueryTypes.SELECT
+                        }).then( response => {
+                            console.log("PROMISES");
+                            console.log(response)
+                            if(response[0].obtener_topicos_area == device.topic_res ){
+                                const entryAdd = sequelize.query("INSERT INTO CARD_ACCESS(card_id, area_id, access_data) VALUES (:card_id,:area_id,:access_data)", {
+                                    replacements: {
+                                        card_id: card.card_id,
+                                        area_id: device.area_id,
+                                        access_data: 'OK'
+                                    },
+                                    type: sequelize.QueryTypes.SELECT
+                                  });
+                                res.status(200).json({status: "OK"})
+                                return true
+                              }
                         });
-                      
+                        /*
+                        if(respuesta[0].obtener_topicos_area == device.topic_res ){
+                          const entryAdd = sequelize.query("INSERT INTO CARD_ACCESS(card_id, area_id, access_data) VALUES (:card_id,:area_id,:access_data)", {
+                              replacements: {
+                                  card_id: card.card_id,
+                                  area_id: device.area_id,
+                                  access_data: 'OK'
+                              },
+                              type: sequelize.QueryTypes.SELECT
+                            });
+                          return res.status(200).json({status: "OK"})
+                        }
+
                         await Promise.all(promises);
-                        const now = new Date();
-                        const timestamp = now.getTime();
-                        const formattedDate = new Date(timestamp).toISOString();
-                        if(flag == 0){
-                            const entryAdd = sequelize.query("INSERT INTO CARD_ACCESS(card_id, area_id, access_data) VALUES (:card_id,:area_id,:access_date,:access_data)", {
+                        */
+                       return respuesta;
+                      });
+
+                      Promise.all(promises)
+                      .then((results) => {
+                        const index = results.indexOf(true);
+                        if(index === -1){
+                            const entryAdd = sequelize.query("INSERT INTO CARD_ACCESS(card_id, area_id, access_data) VALUES (:card_id,:area_id,:access_data)", {
                                 replacements: {
                                     card_id: card.card_id,
                                     area_id: device.area_id,
@@ -228,11 +244,10 @@ export const validatePermission = async (req,res) => {
                                 },
                                 type: sequelize.QueryTypes.SELECT
                               });
-                            return res.status(200).json({status: "denied", message: "El usuario no tiene permisos"})
+                            return res.status(200).json({status: "DENIED"})
                         }
-                      }
+                      })
                       
-                      waitResponseHTTP(device);
        
                 }
             })
