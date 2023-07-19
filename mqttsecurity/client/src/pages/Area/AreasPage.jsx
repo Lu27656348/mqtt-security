@@ -1,7 +1,40 @@
 // import React from 'react'
 import {Link} from 'react-router-dom';
-
+import { useEffect,useState } from 'react';
+import {getAreasRequest,deleteAreaRequest} from '../../api/areas.api.js';
+import { useNavigate } from 'react-router-dom';
 function AreasPage() {
+  const [Areas, setAreas] = useState([])
+
+  const navigate = useNavigate();
+
+  // Cargar areas
+  useEffect(() => {
+
+    async function loadAreas() {
+      const response = await getAreasRequest();
+      console.log(response.data);
+      setAreas(response.data);
+    }
+    loadAreas();
+
+  }, [])
+
+  // Eliminar area 
+  const handleDeleteArea = async (area_id) => {
+    try {
+      const response = await deleteAreaRequest(area_id);
+      console.log(response.data);
+      setAreas(Areas.filter(area => area.area_id !== area_id));
+    } catch (error) {
+        console.log(error)
+    }
+
+  }
+
+
+
+
   return (
     <>
     <div className="container">
@@ -16,50 +49,35 @@ function AreasPage() {
           <table className="table p-1 ">
             <thead>
               <tr>
-                <th scope="col">#</th>
+                <th scope="col">#Area_id</th>
                 <th scope="col">Area topic</th>
-                <th scope="col">level</th>
-                <th scope="col">description</th>
+                <th scope="col">Level</th>
+                <th scope="col">Description</th>
                 <th scope="col">Acciones</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>Otto</td>
-                <td>
+              {
+                Areas.map((area, index) => (
+                  <tr key={index}>
+                    <th >{area.area_id}</th>
+                    <td>{area.area_topic}</td>
+                    <td>{area.level}</td>
+                    <td>{area.description}</td>
+                    <td>
+                      <button 
+                      title="Editar" type="button" className="btn btn-warning bg-warning btn-sm m-1"
+                      onClick={()=> navigate(`/areas/edit/${area.area_id}`)}
+                      >✎</button>
+                      <button
+                       title="Eliminar" type="button" className="btn btn-danger bg-danger btn-sm m-1"
+                       onClick={()=> handleDeleteArea(area.area_id)}
+                       >❌</button>
+                    </td>
+                  </tr>
+                ))
 
-                  <button type="button" className="btn btn-warning bg-warning">Editar</button>
-                  <button type="button" className="btn btn-danger bg-danger">Eliminar</button>
-                  </td>
-              </tr>
-              <tr>
-                <th >2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-
-                <td>Thornton</td>
-                <td>
-
-
-                <button type="button" className="btn btn-warning bg-warning">Editar</button>
-                  <button type="button" className="btn btn-danger bg-danger">Eliminar</button>
-                </td>
-              </tr>
-              <tr>
-                <th >3</th>
-                <td>@twitter</td>
-                <td>@twitter</td>
-
-                <td>@twitter</td>
-                <td>
-
-                <button type="button" className="btn btn-warning bg-warning">Editar</button>
-                  <button type="button" className="btn btn-danger bg-danger">Eliminar</button>
-                </td>
-              </tr>
+              }
 
             </tbody>
           </table>
@@ -86,42 +104,6 @@ function AreasPage() {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>Otto</td>
-                <td>
-
-                  <button type="button" className="btn btn-warning bg-warning">Editar</button>
-                  <button type="button" className="btn btn-danger bg-danger">Eliminar</button>
-                  </td>
-              </tr>
-              <tr>
-                <th >2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-
-                <td>Thornton</td>
-                <td>
-
-
-                <button type="button" className="btn btn-warning bg-warning">Editar</button>
-                  <button type="button" className="btn btn-danger bg-danger">Eliminar</button>
-                </td>
-              </tr>
-              <tr>
-                <th >3</th>
-                <td>@twitter</td>
-                <td>@twitter</td>
-
-                <td>@twitter</td>
-                <td>
-
-                <button type="button" className="btn btn-warning bg-warning">Editar</button>
-                  <button type="button" className="btn btn-danger bg-danger">Eliminar</button>
-                </td>
-              </tr>
 
             </tbody>
           </table>
@@ -147,28 +129,7 @@ function AreasPage() {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>
 
-                  <button type="button" className="btn btn-warning bg-warning">Editar</button>
-                  <button type="button" className="btn btn-danger bg-danger">Eliminar</button>
-                  </td>
-              </tr>
-              <tr>
-                <th >2</th>
-                <td>Jacob</td>
-
-                <td>Thornton</td>
-                <td>
-
-
-                <button type="button" className="btn btn-warning bg-warning">Editar</button>
-                  <button type="button" className="btn btn-danger bg-danger">Eliminar</button>
-                </td>
-              </tr>
               <tr>
                 <th >3</th>
                 <td>@twitter</td>

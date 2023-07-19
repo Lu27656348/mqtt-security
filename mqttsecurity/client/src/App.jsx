@@ -27,7 +27,9 @@ import UserPage from './pages/Users/UsersPage';
 import UsersForm from './pages/Users/UsersForm';
 import UsersCardsForm from './pages/Users/UsersCardsForm';
 import UsersTypesForm from './pages/Users/UsersTypesForm';
-
+// Auth
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 function App() {
 
   return (
@@ -37,12 +39,15 @@ function App() {
       <NavBar/>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
         {/* Devices */}
         <Route path="/devices" element={<DevicesPage/>} />
         <Route path='/devices/new' element={<DevicesForm/>} />
         {/* Areas */}
         <Route path="/areas" element={<AreasPage/>} />
         <Route path="/areas/new" element={<AreasForm/>} />
+        <Route path="/areas/edit/:id" element={<AreasForm/>} />
         <Route path="/areas_time/new" element={<AreasTimeForm/>} />
         <Route path="/areas_tree/new" element={<AreasTreeForm/>} />
         {/* Cards */}
