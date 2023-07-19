@@ -19,5 +19,8 @@ export const getAreaRequest = async(id) => {
 }
 
 export const updateAreaRequest = async(id,area) => {
+    console.log("ifff"+id);
+    console.log(area)
+    
     return await axios.put('http://localhost:3030/auth/areas/'+id,area,{headers: headers})
 }

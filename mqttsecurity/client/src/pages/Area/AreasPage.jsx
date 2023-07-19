@@ -2,9 +2,12 @@
 import {Link} from 'react-router-dom';
 import { useEffect,useState } from 'react';
 import {getAreasRequest,deleteAreaRequest} from '../../api/areas.api.js';
+import {getAreasTreeRequest,deleteAreaTreeRequest} from '../../api/areasTree.api.js';
 import { useNavigate } from 'react-router-dom';
 function AreasPage() {
   const [Areas, setAreas] = useState([])
+  const [AreasTime, setAreasTime] = useState([])
+  const [AreasTree, setAreasTree] = useState([])
 
   const navigate = useNavigate();
 
@@ -32,6 +35,15 @@ function AreasPage() {
 
   }
 
+  //========Cargar areas_tree
+  useEffect(() => {
+    async function loadAreasTreeRequest() {
+      const response = await getAreasTreeRequest();
+      console.log(response.data);
+      setAreasTree(response.data);
+    }
+    loadAreasTreeRequest();
+  }, [])
 
 
 
@@ -104,6 +116,7 @@ function AreasPage() {
               </tr>
             </thead>
             <tbody>
+ 
 
             </tbody>
           </table>
@@ -129,18 +142,28 @@ function AreasPage() {
               </tr>
             </thead>
             <tbody>
+              {
+                AreasTree.map((area, index) => (
+                  <tr key={index}>
+                    <th >{area.id}</th>
+                    <td>{area.area_id1}</td>
+                    <td>{area.area_id2}</td>
+                    <td>
+                      <button
+                        title="Editar" type="button" className="btn btn-warning bg-warning btn-sm m-1"
+                        onClick={() => navigate(`/areas_tree/edit/${area.id}`)}
+                      >✎</button>
 
-              <tr>
-                <th >3</th>
-                <td>@twitter</td>
-                <td>@twitter</td>
+                      <button
+                        title="Eliminar" type="button" className="btn btn-danger bg-danger btn-sm m-1"
+                        onClick={() => handleDeleteArea(area.id)}
+                      >❌</button>
+                    </td>
+                  </tr>
+                ))
 
-                <td>
-
-                <button type="button" className="btn btn-warning bg-warning">Editar</button>
-                  <button type="button" className="btn btn-danger bg-danger">Eliminar</button>
-                </td>
-              </tr>
+              }
+               
 
             </tbody>
           </table>

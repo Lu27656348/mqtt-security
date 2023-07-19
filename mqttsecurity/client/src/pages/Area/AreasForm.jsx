@@ -10,6 +10,7 @@ function AreasForm() {
 
   const params = useParams();
   const [Area, setArea] = useState({
+    area_id : '',
     area_topic : '',
     level : '',
     description : '',
@@ -24,6 +25,7 @@ function AreasForm() {
           const response = await getAreaRequest(params.id);
           console.log(response.data);
           setArea({
+            area_id : response.data.area_id,
             area_topic : response.data.area_topic,
             level : response.data.level,
             description : response.data.description,
@@ -52,6 +54,7 @@ function AreasForm() {
             try {
               if(params.id){
                 // editar
+                console.log(params.id);
                 const response = await updateAreaRequest(params.id,values);
                 console.log(response);
               }else{
@@ -73,6 +76,11 @@ function AreasForm() {
               <div className="card">
               <Form onSubmit={handleSubmit}>
              
+                {/* Area__id */}
+                <div className="m-3">
+                  {/* <label htmlFor="area_topic" className="form-label">Area__id</label> */}
+                  <input type="hidden" className="form-control"  id="area_id" name="area_id" onChange={handleChange} placeholder="Ingrese area" value={params.id} />
+                </div>
                 {/* Area_topic */}
                 <div className="m-3">
                   <label htmlFor="area_topic" className="form-label">Area_topic</label>
