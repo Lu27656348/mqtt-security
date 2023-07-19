@@ -14,7 +14,7 @@ function Navbar() {
  
  
 
-                <li className="nav-item dropdown mr-4">
+                <li className="nav-item dropstart mr-4">
                     <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         CRUDS
                     </a>
@@ -27,6 +27,15 @@ function Navbar() {
                         </li>
                         <li>
                             <Link className="dropdown-item" to="/cards">Cards</Link>
+                        </li>
+                        <li>
+                            <Link className="dropdown-item" to="/clients">Clientes</Link>
+                        </li>
+                        <li>
+                            <Link className="dropdown-item" to="/roles">Roles</Link>
+                        </li>
+                        <li>
+                            <Link className="dropdown-item" to="/users">Users</Link>
                         </li>
                     </ul>
                 </li>
