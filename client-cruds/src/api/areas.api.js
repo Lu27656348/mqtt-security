@@ -7,6 +7,8 @@ export const getAreasRequest = async() => {
 }
 
 export const createAreaRequest = async(area) => {
+    console.log("api=>createAreaRequest=>"+area)
+
     return await axios.post('http://localhost:3030/auth/areas',area,{headers: headers})
 }
 

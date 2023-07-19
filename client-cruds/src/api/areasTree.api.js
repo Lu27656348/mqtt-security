@@ -7,7 +7,8 @@ export const getAreasTreeRequest = async() => {
 }
 
 export const createAreaTreeRequest = async(area) => {
-    return await axios.post('http://localhost:3030/auth/areatree',area,{headers: headers})
+    console.log("api=>createAreaTreeRequest=>"+area)
+    return await axios.post('http://localhost:3030/auth/areatree/create',area,{headers: headers})
 }
 
 export const deleteAreaTreeRequest = async(id) => {
